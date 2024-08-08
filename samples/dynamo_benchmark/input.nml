@@ -10,7 +10,7 @@ n_cheb_ic_max=17,
 /
 &control
  mode        =0,
- tag         ="test",
+ tag         ="test_new",
  n_time_steps=1000,
  courfac     =2.5D0,
  alffac      =1.0D0,

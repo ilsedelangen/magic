@@ -323,13 +323,13 @@ endif()
 # Detect SHTNS
 if(USE_SHTNS MATCHES yes)
    if(USE_OMP)
-      find_library(SHTNS shtns_omp HINTS $ENV{HOME}/local/lib)
+      find_library(SHTNS shtns_omp HINTS $ENV{MAGIC_HOME}/local/lib)
    else()
-      find_library(SHTNS shtns HINTS $ENV{HOME}/local/lib)
+      find_library(SHTNS shtns HINTS $ENV{MAGIC_HOME}/local/lib)
    endif(USE_OMP)
    if(NOT SHTNS MATCHES SHTNS-NOTFOUND)
       add_definitions(-DWITH_SHTNS)
-      include_directories($ENV{HOME}/local/include)
+      include_directories($ENV{MAGIC_HOME}/local/include)
       message(STATUS "SHTNS: ${SHTNS}")
    else()
       message(STATUS "Failed to find SHTNS")
@@ -351,7 +351,7 @@ if(USE_SHTNS MATCHES yes AND NOT SHTNS MATCHES SHTNS-NOTFOUND)
    ")
    try_compile(SHT_PAD ${CMAKE_BINARY_DIR}
       ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeTmp/testPad.f90
-      CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=$ENV{HOME}/local/include"
+      CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=$ENV{MAGIC_HOME}/local/include"
       COMPILE_DEFINITIONS ${CMAKE_REQUIRED_DEFINITIONS}
       OUTPUT_VARIABLE OUTPUT)
    if(SHT_PAD)

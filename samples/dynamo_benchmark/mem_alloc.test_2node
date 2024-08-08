@@ -1,0 +1,83 @@
+ !-------------- blocking.f90  -----------------
+       62.539 KiB allocated on rank    0
+       62.539 KiB allocated on rank    1
+       62.539 KiB allocated on rank    2
+       62.539 KiB allocated on rank    3
+       62.539 KiB allocated on rank    4
+                ...
+       62.539 KiB allocated on rank   30
+       62.539 KiB allocated on rank   31
+  
+ !------------ radial/horizontal ---------------
+       69.027 KiB allocated on rank    0
+       69.027 KiB allocated on rank    1
+       69.027 KiB allocated on rank    2
+       69.027 KiB allocated on rank    3
+       69.027 KiB allocated on rank    4
+                ...
+       69.543 KiB allocated on rank   30
+       69.543 KiB allocated on rank   31
+  
+ !------------- radialLoop.f90  ----------------
+      352.125 KiB allocated on rank    0
+      352.125 KiB allocated on rank    1
+      352.125 KiB allocated on rank    2
+      352.125 KiB allocated on rank    3
+      352.125 KiB allocated on rank    4
+                ...
+      352.125 KiB allocated on rank   30
+      352.125 KiB allocated on rank   31
+  
+ !--------------- LMLoop.f90  ------------------
+      154.143 KiB allocated on rank    0
+      123.205 KiB allocated on rank    1
+      123.205 KiB allocated on rank    2
+      123.205 KiB allocated on rank    3
+       92.268 KiB allocated on rank    4
+                ...
+       93.299 KiB allocated on rank   30
+       93.299 KiB allocated on rank   31
+  
+ !------------ fields/fieldsLast ---------------
+      355.438 KiB allocated on rank    0
+      151.688 KiB allocated on rank    1
+      151.688 KiB allocated on rank    2
+      151.688 KiB allocated on rank    3
+      151.688 KiB allocated on rank    4
+                ...
+      175.984 KiB allocated on rank   30
+      228.578 KiB allocated on rank   31
+  
+ !----------- communications.f90  --------------
+       69.594 KiB allocated on rank    0
+       67.203 KiB allocated on rank    1
+       67.203 KiB allocated on rank    2
+       67.203 KiB allocated on rank    3
+       67.203 KiB allocated on rank    4
+                ...
+       69.781 KiB allocated on rank   30
+       93.688 KiB allocated on rank   31
+  
+ !---------------- Total I/O -------------------
+       53.383 KiB allocated on rank    0
+       50.992 KiB allocated on rank    1
+       50.992 KiB allocated on rank    2
+       50.992 KiB allocated on rank    3
+       50.992 KiB allocated on rank    4
+                ...
+       54.617 KiB allocated on rank   30
+       68.961 KiB allocated on rank   31
+  
+  
+ !==============================================
+ !           TOTAL MEMORY ALLOCATION           !
+ !==============================================
+  
+        1.102 MiB allocated on rank    0
+      888.705 KiB allocated on rank    1
+      888.705 KiB allocated on rank    2
+      888.705 KiB allocated on rank    3
+      857.768 KiB allocated on rank    4
+                ...
+      890.330 KiB allocated on rank   30
+      981.174 KiB allocated on rank   31

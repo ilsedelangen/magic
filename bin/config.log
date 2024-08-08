@@ -1,0 +1,381 @@
+
+Redirecting output to ‘wget-log’.
+shtns/
+shtns/.gitlab-ci.yml
+shtns/.hgignore
+shtns/CHANGELOG.md
+shtns/COPYRIGHT
+shtns/LICENSE
+shtns/Makefile.in
+shtns/README.md
+shtns/SHT/
+shtns/SHT/Makefile
+shtns/SHT/fly_SH_to_spat.gen.c
+shtns/SHT/fly_spat_to_SH.gen.c
+shtns/SHT/kernel_SH_to_spat.gen.c
+shtns/SHT/kernel_spat_to_SH.gen.c
+shtns/SHT/omp_SH_to_spat.gen.c
+shtns/SHT/omp_spat_to_SH.gen.c
+shtns/configure
+shtns/configure.ac
+shtns/cudamaxrelerror.cu
+shtns/doc/
+shtns/doc/Makefile
+shtns/doc/accuracy.png
+shtns/doc/doxygen.conf
+shtns/doc/faq.pdf
+shtns/doc/faq.tex
+shtns/doc/faq_01_divergence_freeness/
+shtns/doc/faq_01_divergence_freeness/.div_free_test.py.swp
+shtns/doc/faq_01_divergence_freeness/Makefile
+shtns/doc/faq_01_divergence_freeness/README
+shtns/doc/faq_01_divergence_freeness/SphereDataPhysical.py
+shtns/doc/faq_01_divergence_freeness/__pycache__/
+shtns/doc/faq_01_divergence_freeness/__pycache__/SphereDataPhysical.cpython-38.pyc
+shtns/doc/faq_01_divergence_freeness/div_free_test.py
+shtns/doc/faq_01_divergence_freeness/plot_SphereDataPhysical.py
+shtns/doc/faq_01_divergence_freeness/run_test.sh
+shtns/doc/logo_cnrs_small.png
+shtns/doc/main.dox
+shtns/examples/
+shtns/examples/SHT_example.c
+shtns/examples/SHT_example.f
+shtns/examples/SHT_example.f90
+shtns/examples/SHT_example.py
+shtns/examples/SHT_fixed_m.py
+shtns/examples/shallow_water.png
+shtns/examples/shallow_water.py
+shtns/examples/sht_rot.py
+shtns/examples/test_rot.c
+shtns/examples/test_suite.c
+shtns/examples/wigner.c
+shtns/fftw3/
+shtns/fftw3/cycle.h
+shtns/fftw3/fftw3.h
+shtns/setup.py.in
+shtns/sht_com.c
+shtns/sht_config.h.in
+shtns/sht_fly.c
+shtns/sht_func.c
+shtns/sht_gpu.cu
+shtns/sht_gpu_kernels.cu
+shtns/sht_init.c
+shtns/sht_kernels_a.c
+shtns/sht_kernels_s.c
+shtns/sht_legendre.c
+shtns/sht_odd_nlat.c
+shtns/sht_omp.c
+shtns/sht_private.h
+shtns/shtns.f
+shtns/shtns.f03
+shtns/shtns.h
+shtns/shtns.py
+shtns/shtns_cuda.h
+shtns/shtns_jni/
+shtns/shtns_jni/.dep.inc
+shtns/shtns_jni/Java/
+shtns/shtns_jni/Java/Shtns/
+shtns/shtns_jni/Java/Shtns/pom.xml
+shtns/shtns_jni/Java/Shtns/src/
+shtns/shtns_jni/Java/Shtns/src/main/
+shtns/shtns_jni/Java/Shtns/src/main/java/
+shtns/shtns_jni/Java/Shtns/src/main/java/com/
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/helpers/
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/helpers/ComplexArray.java
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/helpers/DoubleArray.java
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/helpers/LegendreGausWeights.java
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/helpers/Utilities.java
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/shtns/
+shtns/shtns_jni/Java/Shtns/src/main/java/com/mrsharky/shtns/Shtns.java
+shtns/shtns_jni/Java/Shtns/target/
+shtns/shtns_jni/Java/Shtns/target/Shtns-1.0-SNAPSHOT.jar
+shtns/shtns_jni/Java/Shtns/target/classes/
+shtns/shtns_jni/Java/Shtns/target/classes/.netbeans_automatic_build
+shtns/shtns_jni/Java/Shtns/target/classes/com/
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/helpers/
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/helpers/ComplexArray.class
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/helpers/DoubleArray.class
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/helpers/LegendreGausWeights.class
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/helpers/Utilities.class
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/shtns/
+shtns/shtns_jni/Java/Shtns/target/classes/com/mrsharky/shtns/Shtns.class
+shtns/shtns_jni/Java/Shtns/target/maven-archiver/
+shtns/shtns_jni/Java/Shtns/target/maven-archiver/pom.properties
+shtns/shtns_jni/Java/Shtns/target/test-classes/
+shtns/shtns_jni/Java/Shtns/target/test-classes/.netbeans_automatic_build
+shtns/shtns_jni/shtns_jni/
+shtns/shtns_jni/shtns_jni/.dep.inc
+shtns/shtns_jni/shtns_jni/Makefile
+shtns/shtns_jni/shtns_jni/ShtnsJni.c
+shtns/shtns_jni/shtns_jni/ShtnsJni.h
+shtns/shtns_jni/shtns_jni/nbproject/
+shtns/shtns_jni/shtns_jni/nbproject/Makefile-Debug.mk
+shtns/shtns_jni/shtns_jni/nbproject/Makefile-Release.mk
+shtns/shtns_jni/shtns_jni/nbproject/Makefile-impl.mk
+shtns/shtns_jni/shtns_jni/nbproject/Makefile-variables.mk
+shtns/shtns_jni/shtns_jni/nbproject/Package-Debug.bash
+shtns/shtns_jni/shtns_jni/nbproject/Package-Release.bash
+shtns/shtns_jni/shtns_jni/nbproject/configurations.xml
+shtns/shtns_jni/shtns_jni/nbproject/private/
+shtns/shtns_jni/shtns_jni/nbproject/private/Makefile-variables.mk
+shtns/shtns_jni/shtns_jni/nbproject/private/c_standard_headers_indexer.c
+shtns/shtns_jni/shtns_jni/nbproject/private/configurations.xml
+shtns/shtns_jni/shtns_jni/nbproject/private/cpp_standard_headers_indexer.cpp
+shtns/shtns_jni/shtns_jni/nbproject/private/launcher.properties
+shtns/shtns_jni/shtns_jni/nbproject/private/private.xml
+shtns/shtns_jni/shtns_jni/nbproject/project.xml
+shtns/shtns_jni/shtns_jni/spat
+shtns/shtns_jni/shtns_jni/spat_after
+shtns/shtns_jni/shtns_jni/spat_before
+shtns/shtns_jni/shtns_jni/spatp
+shtns/shtns_jni/shtns_jni/spatt
+shtns/shtns_jni/shtns_jni/ylm
+shtns/shtns_jni/shtns_jni/ylm_nl
+shtns/shtns_jni/shtns_jni/ylm_v
+shtns/shtns_numpy.i
+shtns/shtns_numpy_wrap.c
+shtns/shtns_simd.h
+shtns/test_suite.sh
+shtns/time_SHT.c
+MKL not found, will try to install with FFTW
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for a sed that does not truncate output... /usr/bin/sed
+checking whether gcc accepts -march=native... yes
+checking whether gcc accepts -mtune=skylake... yes
+checking whether gcc accepts -qopt-zmm-usage=high... no
+checking whether gcc accepts -ffast-math... yes
+checking whether gcc accepts -std=gnu99... yes
+checking whether gcc accepts -fopenmp-simd... yes
+checking whether gcc accepts -qopenmp-simd... no
+checking whether gcc accepts -fno-tree-loop-distribute-patterns... yes
+checking whether gcc accepts -mno-vzeroupper... yes
+checking whether gcc accepts -march=native... yes
+checking whether gcc accepts -mtune=skylake... yes
+checking whether gcc accepts -qopt-zmm-usage=high... no
+checking whether gcc accepts -ffast-math... yes
+checking whether gcc accepts -std=gnu99... yes
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for stdlib.h... (cached) yes
+checking for stdio.h... (cached) yes
+checking for string.h... (cached) yes
+checking for math.h... yes
+checking for complex.h... yes
+checking for cos in -lm... yes
+checking for fftw_plan_many_dft in -lfftw3... yes
+  verbose level = 1
+checking for size_t... yes
+checking for fftw_cost... yes
+checking for inline... inline
+checking for sys/time.h... yes
+checking for c_asm.h... no
+checking for intrinsics.h... no
+checking for mach/mach_time.h... no
+checking for hrtime_t... no
+checking for gethrtime... no
+checking for read_real_time... no
+checking for time_base_to_time... no
+checking for clock_gettime... yes
+checking for mach_absolute_time... no
+checking for _rtc intrinsic... no
+checking whether the compiler supports GNU Fortran... no
+checking whether mpiifort accepts -g... no
+prefix=/home/delangen/magic_swan/magic/local
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating setup.py
+config.status: creating sht_config.h
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_init.c -o sht_init.o
+make spat_to_SH_kernel.c -C SHT SFX=kernel SED=/usr/bin/sed
+make SH_to_spat_kernel.c -C SHT SFX=kernel SED=/usr/bin/sed
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_odd_nlat.c -o sht_odd_nlat.o
+make SH_to_spat_fly.c -C SHT SFX=fly SED=/usr/bin/sed
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+make spat_to_SH_fly.c -C SHT SFX=fly SED=/usr/bin/sed
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+spat_to_SH* code generated.
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+spat_to_SH* code generated.
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE -c sht_kernels_a.c -o sht_kernels_a.o
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+SH*_to_spat code generated.
+SH*_to_spat code generated.
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE -c sht_kernels_s.c -o sht_kernels_s.o
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_fly.c -o sht_fly.o
+ar rcs libshtns.a sht_init.o sht_kernels_a.o sht_kernels_s.o sht_odd_nlat.o sht_fly.o
+ 
+Copyright (c) 2010-2018 Centre National de la Recherche Scientifique.
+written by Nathanael Schaeffer (CNRS, ISTerre, Grenoble, France).
+
+nathanael.schaeffer@univ-grenoble-alpes.fr
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software. You can use,
+modify and/or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info".
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+
+ 
+**** link with :  -lfftw3 -lm 
+cp libshtns.a /home/delangen/magic_swan/magic/local/lib/libshtns.a
+cp shtns.h /home/delangen/magic_swan/magic/local/include/
+cp shtns_cuda.h /home/delangen/magic_swan/magic/local/include/
+cp shtns.f shtns.f03 /home/delangen/magic_swan/magic/local/include/
+ 
+Copyright (c) 2010-2018 Centre National de la Recherche Scientifique.
+written by Nathanael Schaeffer (CNRS, ISTerre, Grenoble, France).
+
+nathanael.schaeffer@univ-grenoble-alpes.fr
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software. You can use,
+modify and/or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info".
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+
+ 
+**** link with : -L/home/delangen/magic_swan/magic/local/lib  -lfftw3 -lm 
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for a sed that does not truncate output... /usr/bin/sed
+checking whether gcc accepts -march=native... yes
+checking whether gcc accepts -mtune=skylake... yes
+checking whether gcc accepts -qopt-zmm-usage=high... no
+checking whether gcc accepts -ffast-math... yes
+checking whether gcc accepts -std=gnu99... yes
+checking whether gcc accepts -fopenmp-simd... yes
+checking whether gcc accepts -qopenmp-simd... no
+checking whether gcc accepts -fno-tree-loop-distribute-patterns... yes
+checking whether gcc accepts -mno-vzeroupper... yes
+checking whether gcc accepts -march=native... yes
+checking whether gcc accepts -mtune=skylake... yes
+checking whether gcc accepts -qopt-zmm-usage=high... no
+checking whether gcc accepts -ffast-math... yes
+checking whether gcc accepts -std=gnu99... yes
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for stdlib.h... (cached) yes
+checking for stdio.h... (cached) yes
+checking for string.h... (cached) yes
+checking for math.h... yes
+checking for complex.h... yes
+checking for cos in -lm... yes
+checking for gcc option to support OpenMP... -fopenmp
+checking for fftw_plan_many_dft in -lfftw3... yes
+checking for fftw_init_threads in -lfftw3_omp... yes
+  verbose level = 1
+checking for size_t... yes
+checking for fftw_cost... yes
+checking for inline... inline
+checking for sys/time.h... yes
+checking for c_asm.h... no
+checking for intrinsics.h... no
+checking for mach/mach_time.h... no
+checking for hrtime_t... no
+checking for gethrtime... no
+checking for read_real_time... no
+checking for time_base_to_time... no
+checking for clock_gettime... yes
+checking for mach_absolute_time... no
+checking for _rtc intrinsic... no
+checking whether the compiler supports GNU Fortran... no
+checking whether mpiifort accepts -g... no
+prefix=/home/delangen/magic_swan/magic/local
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating setup.py
+config.status: creating sht_config.h
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_init.c -o sht_init.o
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE -c sht_kernels_a.c -o sht_kernels_a.o
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE -c sht_kernels_s.c -o sht_kernels_s.o
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_odd_nlat.c -o sht_odd_nlat.o
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_fly.c -o sht_fly.o
+make SH_to_spat_omp.c -C SHT SFX=omp SED=/usr/bin/sed
+make spat_to_SH_omp.c -C SHT SFX=omp SED=/usr/bin/sed
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+make[1]: Entering directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+spat_to_SH* code generated.
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+SH*_to_spat code generated.
+make[1]: Leaving directory '/home/delangen/magic_swan_gcc/magic/bin/shtns/SHT'
+gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"v6.3-8-ga23c2573*\" -DSHTNS_VER=\"3.5.2\"  -c sht_omp.c -o sht_omp.o
+ar rcs libshtns_omp.a sht_init.o sht_kernels_a.o sht_kernels_s.o sht_odd_nlat.o sht_fly.o sht_omp.o
+ 
+Copyright (c) 2010-2018 Centre National de la Recherche Scientifique.
+written by Nathanael Schaeffer (CNRS, ISTerre, Grenoble, France).
+
+nathanael.schaeffer@univ-grenoble-alpes.fr
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software. You can use,
+modify and/or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info".
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+
+ 
+**** link with :  -lfftw3_omp -lfftw3 -lm 
+cp libshtns_omp.a /home/delangen/magic_swan/magic/local/lib/libshtns_omp.a
+cp shtns.h /home/delangen/magic_swan/magic/local/include/
+cp shtns_cuda.h /home/delangen/magic_swan/magic/local/include/
+cp shtns.f shtns.f03 /home/delangen/magic_swan/magic/local/include/
+ 
+Copyright (c) 2010-2018 Centre National de la Recherche Scientifique.
+written by Nathanael Schaeffer (CNRS, ISTerre, Grenoble, France).
+
+nathanael.schaeffer@univ-grenoble-alpes.fr
+
+This software is governed by the CeCILL license under French law and
+abiding by the rules of distribution of free software. You can use,
+modify and/or redistribute the software under the terms of the CeCILL
+license as circulated by CEA, CNRS and INRIA at the following URL
+"http://www.cecill.info".
+
+The fact that you are presently reading this means that you have had
+knowledge of the CeCILL license and that you accept its terms.
+
+ 
+**** link with : -L/home/delangen/magic_swan/magic/local/lib  -lfftw3_omp -lfftw3 -lm 

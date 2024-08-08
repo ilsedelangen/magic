@@ -1,0 +1,535 @@
+ !      __  __             _____ _____     __   ____      
+ !     |  \/  |           |_   _/ ____|   / /  |___ \     
+ !     | \  / | __ _  __ _  | || |       / /_    __) |    
+ !     | |\/| |/ _` |/ _` | | || |      |  _ \  |__ <     
+ !     | |  | | (_| | (_| |_| || |____  | (_) | ___) |    
+ !     |_|  |_|\__,_|\__, |_____\_____|  \___(_)____/     
+ !                    __/ |                               
+ !                   |___/                                
+ !                                                        
+ !                                                        
+ !                          /^\     .                     
+ !                     /\   "V"                           
+ !                    /__\   I      O  o                  
+ !                   //..\\  I     .                      
+ !                   \].`[/  I                            
+ !                   /l\/j\  (]    .  O                   
+ !                  /. ~~ ,\/I          .                 
+ !                  \\L__j^\/I       o                    
+ !                   \/--v}  I     o   .                  
+ !                   |    |  I   _________                
+ !                   |    |  I c(`       ")o              
+ !                   |    l  I   \.     ,/                
+ !                 _/j  L l\_!  _//^---^\\_               
+ !              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~            
+ !                                                        
+ !                                                        
+ ! Git version:  v6.3-8-ga23c257
+ ! Build date:  2024/07/02 16:20:46
+ ! Compiler version: GCC version 12.3.0
+ ! Compiler options: -cpp -I /usr/include -I /home/delangen/magic_swan/magic/local/in
+ !                   clude -I /sw/eb/OpenMPI/4.1.5-GCC-12.3.0/include -I /sw/eb/OpenMP
+ !                   I/4.1.5-GCC-12.3.0/lib -D BUILD_DATE="2024/07/02 16:20:46" -D COM
+ !                   P_OPT -D DEFAULT_OUTPUT_PRECISION=sngl -D DEFAULT_PRECISION=dble 
+ !                   -D GIT_VERSION="v6.3-8-ga23c257" -D SHT_PADDING -D USE_DCT_FFT -D
+ !                    WITH_MPI -D WITH_PRECOND_BJ -D WITH_PRECOND_S -D WITH_PRECOND_Z 
+ !                   -D WITH_PRECOND_Z10 -D WITH_SHTNS -D dble=2 -D sngl=1 -march=znve
+ !                   r3 -mmmx -mpopcnt -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -
+ !                   mavx -mavx2 -msse4a -mno-fma4 -mno-xop -mfma -mno-avx512f -mbmi -
+ !                   mbmi2 -maes -mpclmul -mno-avx512vl -mno-avx512bw -mno-avx512dq -m
+ !                   no-avx512cd -mno-avx512er -mno-avx512pf -mno-avx512vbmi -mno-avx5
+ !                   12ifma -mno-avx5124vnniw -mno-avx5124fmaps -mno-avx512vpopcntdq -
+ !                   mno-avx512vbmi2 -mno-gfni -mvpclmulqdq -mno-avx512vnni -mno-avx51
+ !                   2bitalg -mno-avx512bf16 -mno-avx512vp2intersect -mno-3dnow -madx 
+ !                   -mabm -mno-cldemote -mclflushopt -mclwb -mclzero -mcx16 -mno-enqc
+ !                   md -mf16c -mfsgsbase -mfxsr -mno-hle -msahf -mno-lwp -mlzcnt -mmo
+ !                   vbe -mno-movdir64b -mno-movdiri -mmwaitx -mno-pconfig -mpku -mno-
+ !                   prefetchwt1 -mprfchw -mno-ptwrite -mrdpid -mrdrnd -mrdseed -mno-r
+ !                   tm -mno-serialize -mno-sgx -msha -mshstk -mno-tbm -mno-tsxldtrk -
+ !                   mvaes -mno-waitpkg -mwbnoinvd -mxsave -mxsavec -mxsaveopt -mxsave
+ !                   s -mno-amx-tile -mno-amx-int8 -mno-amx-bf16 -mno-uintr -mno-hrese
+ !                   t -mno-kl -mno-widekl -mno-avxvnni -mno-avx512fp16 --param=l1-cac
+ !                   he-size=32 --param=l1-cache-line-size=64 --param=l2-cache-size=51
+ !                   2 -mtune=znver3 -m64 -g -O3 -std=f2008 -fbacktrace -fconvert=big-
+ !                   endian -J ../modules -fpre-include=/usr/include/finclude/math-vec
+ !                   tor-fortran.h
+ ! MPI version:        3.1
+ ! MPI implementation: Open MPI v4.1.5, package: Open MPI yadmin@swan01 Distribution,
+ !                      ident: 4.1.5, repo rev: v4.1.5, Feb 23, 2023
+ ! Start date:  2024/07/03 13:05:34                                                     
+ ! Number of MPI ranks  :   32
+ ! Number of OMP threads:    1
+
+ ! MPI transpose strategy for 5 fields                                          
+ ! isend/irecv/waitall communicator= 1.288E-04 s                                
+ ! alltoallv communicator          = 2.238E-04 s                                
+ ! alltoallw communicator          = 1.315E-04 s                                
+ ! padded alltoall communicator    = 1.535E-04 s                                
+ ! -> I pack some fields for the MPI transposes
+ ! -> I choose isend/irecv/waitall
+
+ 
+ ! Time integrator   :  CNAB2   
+ ! CFL (flow) value  :  2.5000E+00
+ ! CFL (Alfven) value:  1.0000E+00
+ ! CFL (Ekman) value :  1.5000E-01
+ 
+ ! Const. entropy at outer boundary S =    0.000000E+00
+ ! Const. entropy at inner boundary S =    1.000000E+00
+ ! Total vol. buoy. source =    0.000000E+00
+
+ ! PRODUCING MOVIE-FILE :AB_mov.test                                                     
+ !    Containing  axisymm. B phi 
+ !    at phi=    0.000000
+ !    including inner core magnetic field.
+  
+ &grid
+  n_r_max         =   33,
+  n_cheb_max      =   33,
+  n_phi_tot       =   48,
+  n_theta_axi     =    0,
+  n_r_ic_max      =   17,
+  n_cheb_ic_max   =   17,
+  minc            =    1,
+  nalias          =   20,
+  l_axi           =  F,
+  fd_stretch      =  3.000000E-01,
+  fd_ratio        =  1.000000E-01,
+  fd_order        =    2,
+  fd_order_bound  =    2,
+  l_var_l         =  F,
+  rcut_l          =  1.000000E-01,
+ /
+ &control
+  mode            =  0,
+  tag             = "test",
+  n_time_steps    =    1000,
+  n_tScale        =  0,
+  n_lScale        =  0,
+  alpha           =  6.000000E-01,
+  enscale         =  1.000000E+00,
+  l_update_v      =  T,
+  l_update_b      =  T,
+  l_update_s      =  T,
+  l_update_xi     =  T,
+  l_update_phi    =  T,
+  l_newmap        =  F,
+  map_function    = "ARCSIN",
+  alph1           =  8.000000E-01,
+  alph2           =  0.000000E+00,
+  dtMax           =  1.000000E-04,
+  l_cour_alf_damp =  T,
+  difnu           =  0.000000E+00,
+  difeta          =  0.000000E+00,
+  difkap          =  0.000000E+00,
+  difchem         =  0.000000E+00,
+  ldif            =  1,
+  ldifexp         = -1,
+  l_correct_AMe   =  F,
+  l_correct_AMz   =  F,
+  l_non_rot       =  F,
+  l_adv_curl      =  T,
+  l_runTimeLimit  =  T,
+  runHours        =    12,
+  runMinutes      =   0,
+  runSeconds      =   0,
+  tEND            =  0.000000E+00,
+  radial_scheme   = "CHEB",
+  time_scheme     = "CNAB2",
+  polo_flow_eq    = "WP",
+ anelastic_flavour= "SINGLEMAT",
+  mpi_transp      = "AUTO",
+  mpi_packing     = "PACKED",
+ /
+ &phys_param
+  ra              =  1.000000E+05,
+  raxi            =  0.000000E+00,
+  pr              =  1.000000E+00,
+  sc              =  1.000000E+01,
+  prmag           =  5.000000E+00,
+  ek              =  1.000000E-03,
+  po              =  0.000000E+00,
+  stef            =  0.000000E+00,
+  tmelt           =  0.000000E+00,
+  prec_angle      =  2.350000E+01,
+  dilution_fac    =  0.000000E+00,
+  ampForce        =  0.000000E+00,
+  epsc0           =  0.000000E+00,
+  epscxi0         =  0.000000E+00,
+  Bn              =  1.000000E+00,
+  DissNb          =  0.000000E+00,
+  strat           =  0.000000E+00,
+  polind          =  2.000000E+00,
+  ThExpNb         =  1.000000E+00,
+  epsS            =  0.000000E+00,
+  cmbHflux        =  0.000000E+00,
+  slopeStrat      =  2.000000E+01,
+  rStrat          =  1.300000E+00,
+  ampStrat        =  1.000000E+01,
+  thickStrat      =  1.000000E-01,
+  nVarEntropyGrad =  0,
+  radratio        =  3.500000E-01,
+  l_isothermal    =  F,
+  phaseDiffFac    =  1.000000E+00,
+  epsPhase        =  1.000000E-02,
+  penaltyFac      =  1.000000E+00,
+  interior_model  = "NONE",
+  g0              =  0.000000E+00,
+  g1              =  1.000000E+00,
+  g2              =  0.000000E+00,
+  ktopv           =  2,
+  kbotv           =  2,
+  ktopb           =  1,
+  kbotb           =  1,
+  ktopp           =  1,
+  ktops           =  1,
+  kbots           =  1,
+  Bottom boundary l,m,S:
+       0   0  1.000000E+00  0.000000E+00
+  Top boundary l,m,S:
+  impS            =  0,
+  nVarCond        =  0,
+  con_DecRate     =  9.000000E+00,
+  con_RadRatio    =  7.500000E-01,
+  con_LambdaMatch =  6.000000E-01,
+  con_LambdaOut   =  1.000000E-01,
+  con_FuncWidth   =  2.500000E-01,
+  r_LCR           =  2.000000E+00,
+  difExp          = -5.000000E-01,
+  nVarDiff        =  0,
+  nVarVisc        =  0,
+  nVarEps         =  0,
+ /
+ &B_external
+  n_imp           =  0,
+  l_imp           =  1,
+  rrMP            =  0.000000E+00,
+  amp_imp         =  0.000000E+00,
+  expo_imp        =  0.000000E+00,
+  bmax_imp        =  0.000000E+00,
+  Le              =  0.000000E+00,
+  loopRadRatio    =  7.724868E-01,
+ /
+ &start_field
+  l_start_file    =  F,
+  start_file      = "None",
+  inform          = -1,
+  l_reset_t       =  F,
+  scale_s         =  1.000000E+00,
+  scale_xi        =  1.000000E+00,
+  scale_b         =  1.000000E+00,
+  scale_v         =  1.000000E+00,
+  tipdipole       =  0.000000E+00,
+  init_s1         =    404,
+  init_s2         =  0,
+  init_v1         =  0,
+  init_b1         =  3,
+  init_xi1        =      0,
+  init_xi2        =  0,
+  init_phi        =  0,
+  imagcon         =  0,
+  amp_s1          =  1.000000E-01,
+  amp_s2          =  0.000000E+00,
+  amp_v1          =  0.000000E+00,
+  amp_b1          =  5.000000E+00,
+  amp_xi1         =  0.000000E+00,
+  amp_xi2         =  0.000000E+00,
+ /
+ &output_control
+  n_graph_step    =    0,
+  n_graphs        =    1,
+  t_graph_start   =  0.000000E+00,
+  t_graph_stop    =  0.000000E+00,
+  dt_graph        =  0.000000E+00,
+  n_pot_step      =    0,
+  n_pots          =    0,
+  t_pot_start     =  0.000000E+00,
+  t_pot_stop      =  0.000000E+00,
+  dt_pot          =  0.000000E+00,
+  n_TO_step       =    0,
+  n_TOs           =    0,
+  t_TO_start      =  0.000000E+00,
+  t_TO_stop       =  0.000000E+00,
+  dt_TO           =  0.000000E+00,
+  n_rst_step      =    0,
+  n_rsts          =    1,
+  t_rst_start     =  0.000000E+00,
+  t_rst_stop      =  0.000000E+00,
+  dt_rst          =  0.000000E+00,
+  n_stores        =    1,
+  n_log_step      =    1,
+  n_logs          =    0,
+  t_log_start     =  0.000000E+00,
+  t_log_stop      =  0.000000E+00,
+  dt_log          =  0.000000E+00,
+  n_spec_step     =    0,
+  n_specs         =    0,
+  t_spec_start    =  0.000000E+00,
+  t_spec_stop     =  0.000000E+00,
+  dt_spec         =  0.000000E+00,
+  n_cmb_step      =    0,
+  n_cmbs          =    0,
+  t_cmb_start     =  0.000000E+00,
+  t_cmb_stop      =  0.000000E+00,
+  dt_cmb          =  0.000000E+00,
+  n_r_field_step  =    0,
+  n_r_fields      =    0,
+  t_r_field_start =  0.000000E+00,
+  t_r_field_stop  =  0.000000E+00,
+  dt_r_field      =  0.000000E+00,
+  l_movie         =  T,
+  n_movie_step    =    0,
+  n_movie_frames  =    0,
+  t_movie_start   =  0.000000E+00,
+  t_movie_stop    =  0.000000E+00,
+  dt_movie        =  0.000000E+00,
+  movie           = Bp AX,
+  r_surface       =  2.820900E+00,
+  l_probe         =  F,
+  n_probe_step    =    0,
+  n_probe_out     =    0,
+  t_probe_start   =  0.000000E+00,
+  t_probe_stop    =  0.000000E+00,
+  dt_probe        =  0.000000E+00,
+  r_probe         =  0.000000E+00,
+  theta_probe     =  0.000000E+00,
+  n_phi_probes    =  0,
+  l_average       =  F,
+  l_cmb_field     =  F,
+  l_dt_cmb_field  =  F,
+  l_save_out      =  F,
+  lVerbose        =  F,
+  l_rMagSpec      =  F,
+  l_DTrMagSpec    =  F,
+  l_max_cmb       = 14,
+  l_r_field       =  F,
+  l_r_fieldT      =  F,
+  l_r_fieldXi     =  F,
+  l_max_r         =  0,
+  n_r_step        =  2,
+  l_earth_likeness=  F,
+  l_max_comp      =  8,
+  l_geo           = 11,
+  l_hel           =  F,
+  l_hemi          =  F,
+  l_AM            =  F,
+  l_power         =  F,
+  l_viscBcCalc    =  F,
+  l_fluxProfs     =  F,
+  l_perpPar       =  F,
+  l_PressGraph    =  T,
+  l_energy_modes  =  F,
+  m_max_modes     = 14,
+  l_drift         =  F,
+  l_iner          =  F,
+  l_TO            =  F,
+  l_TOmovie       =  F,
+  l_RMS           =  F,
+  l_par           =  F,
+  sDens           =  1.000000E+00,
+  zDens           =  1.000000E+00,
+  l_corrMov       =  F,
+  rCut            =  0.000000E+00,
+  rDea            =  0.000000E+00,
+  l_2D_spectra    =  F,
+  l_2D_RMS        =  F,
+  l_spec_avg      =  F,
+ /
+ &mantle
+  conductance_ma  =  0.000000E+00,
+  rho_ratio_ma    =  1.000000E+00,
+  nRotMa          =   0,
+  omega_ma1       =  0.000000E+00,
+  omegaOsz_ma1    =  0.000000E+00,
+  tShift_ma1      =  0.000000E+00,
+  omega_ma2       =  0.000000E+00,
+  omegaOsz_ma2    =  0.000000E+00,
+  tShift_ma2      =  0.000000E+00,
+  amp_mode_ma     =  0.000000E+00,
+  omega_mode_ma   =  0.000000E+00,
+  m_mode_ma       =   0,
+  mode_symm_ma    =   0,
+  ellipticity_cmb =  0.000000E+00,
+  amp_tide        =  0.000000E+00,
+  omega_tide      =  0.000000E+00,
+ /
+ &inner_core
+  sigma_ratio     =  0.000000E+00,
+  rho_ratio_ic    =  1.000000E+00,
+  nRotIc          =   0,
+  omega_ic1       =  0.000000E+00,
+  omegaOsz_ic1    =  0.000000E+00,
+  tShift_ic1      =  0.000000E+00,
+  omega_ic2       =  0.000000E+00,
+  omegaOsz_ic2    =  0.000000E+00,
+  tShift_ic2      =  0.000000E+00,
+  BIC             =  0.000000E+00,
+  amp_mode_ic     =  0.000000E+00,
+  omega_mode_ic   =  0.000000E+00,
+  m_mode_ic       =   0,
+  mode_symm_ic    =   0,
+  ellipticity_icb =  0.000000E+00,
+  gammatau_gravi  =  0.000000E+00,
+ /
+  
+ ! Using dtMax time step:    1.000000E-04
+ ! Only l=m=0 comp. in tops:
+
+ ! Self consistent dynamo integration.
+ ! Normalized OC moment of inertia:  1.436464E+01
+ ! Normalized IC moment of inertia:  7.584414E-02
+ ! Normalized MA moment of inertia:  2.848460E+02
+ ! Normalized IC volume           :  6.539622E-01
+ ! Normalized OC volume           :  1.459880E+01
+ ! Normalized IC surface          :  3.643504E+00
+ ! Normalized OC surface          :  2.974289E+01
+
+ ! Grid parameters:
+  n_r_max      =    33 = number of radial grid points
+  n_cheb_max   =    33
+  max cheb deg.=    32
+  n_phi_max    =    48 = no of longitude grid points
+  n_theta_max  =    24 = no of latitude grid points
+  n_r_ic_max   =    17 = number of radial grid points in IC
+  n_cheb_ic_max=    16
+  max cheb deg =    32
+  l_max        =    16 = max degree of Plm
+  m_min        =     0 = min oder of Plm
+  m_max        =    16 = max oder of Plm
+  lm_max       =   153 = no of l/m combinations
+  minc         =     1 = longitude symmetry wave no
+  nalias       =    20 = spher. harm. deal. factor 
+
+ ! STARTING TIME INTEGRATION AT:
+   start_time =  0.0000000000E+00
+   step no    =         0
+   start dt   =      1.0000E-04
+  ! Time step finished:   100
+  ! This is           : 10%
+  ! Mean wall time for time step:  2.258E-03 seconds
+
+  ! Time step finished:   200
+  ! This is           : 20%
+  ! Mean wall time for time step:  1.648E-03 seconds
+
+  ! Time step finished:   300
+  ! This is           : 30%
+  ! Mean wall time for time step:  1.316E-03 seconds
+
+  ! Time step finished:   400
+  ! This is           : 40%
+  ! Mean wall time for time step:  1.147E-03 seconds
+
+  ! Time step finished:   500
+  ! This is           : 50%
+  ! Mean wall time for time step:  1.077E-03 seconds
+
+  ! Time step finished:   600
+  ! This is           : 60%
+  ! Mean wall time for time step:  1.006E-03 seconds
+
+  ! Time step finished:   700
+  ! This is           : 70%
+  ! Mean wall time for time step:  9.532E-04 seconds
+
+  ! Time step finished:   800
+  ! This is           : 80%
+  ! Mean wall time for time step:  9.146E-04 seconds
+
+  ! Time step finished:   900
+  ! This is           : 90%
+  ! Mean wall time for time step:  8.858E-04 seconds
+
+  ! Time step finished:  1000
+  ! This is           :100%
+  ! Mean wall time for time step:  8.602E-04 seconds
+
+
+ ! Storing graphic file:
+             at time=    1.0000000000E-01
+            step no.=           1001
+           into file=G_1.test                                                                
+
+ ! Storing checkpoint file:
+             at time=    1.0000000000E-01
+            step no.=           1001
+           into file=checkpoint_end.test                                                     
+
+ ! Energies at end of time integration:
+ !  (total,poloidal,toroidal,total density)
+ !  Kinetic energies:    8.328773E+01    3.542804E+01    4.785968E+01    5.705107E+00
+ !  OC mag. energies:    1.253020E+04    9.151303E+03    3.378896E+03    8.583033E+02
+ !  IC mag. energies:    5.188335E+02    5.188335E+02    0.000000E+00    7.933692E+02
+
+ ! Time averaged energies :
+ !  (total,poloidal,toroidal,total density)
+ !  Kinetic energies:    2.482339E+02    6.900614E+01    1.792277E+02    1.700372E+01
+ !  OC mag. energies:    1.450541E+04    9.137909E+03    5.367501E+03    9.936028E+02
+
+ ! Time averaged property parameters :
+ !  Rm (Re)          :  2.7744E+01
+ !  Elsass           :  9.9360E+00
+ !  Elsass at CMB    :  1.8513E+00
+ !  Rol              :  6.6911E-03
+ !  rel AS  Ekin     :  6.3068E-01
+ !  rel Zon Ekin     :  4.6131E-01
+ !  rel Mer Ekin     :  1.6937E-01
+ !  rel NA  Ekin     :  3.6832E-01
+ !  rel geos Ekin    :  0.0000E+00
+ !  rel geos AS Ekin :  0.0000E+00
+ !  rel geos Zon Ekin:  0.0000E+00
+ !  rel geos Mer Ekin:  0.0000E+00
+ !  rel geos NAP Ekin:  0.0000E+00
+ !  Dip              :  5.9111E-01
+ !  DipCMB           :  9.6178E-01
+ !  l,m,p,z V scales :  8.2763E-01  6.9777E-01  0.0000E+00  0.0000E+00
+ !  l,m, B scales    :  1.2177E+00  7.3653E-01
+ !  vis, Ohm scale   :  0.0000E+00  0.0000E+00
+  !  No of stored movie frames:          0
+ 
+ ! Mean wall time for r Loop                 :  4.743E-02 seconds
+
+ !    - Time taken for Spat->Spec            :  2.623E-05 seconds
+
+ !    - Time taken for Spec->Spat            :  3.593E-05 seconds
+
+ !    - Time taken for nonlinear terms       :  1.485E-05 seconds
+
+ !    - Time taken for time derivative terms :  5.635E-06 seconds
+
+ ! Mean wall time for LM Loop                :  1.338E-04 seconds
+
+ !     - Time taken to compute r-der of adv. :  5.594E-06 seconds
+
+ !     - Time taken for DCTs and r-der       :  4.158E-05 seconds
+
+ !     - Time taken for linear solves        :  6.296E-05 seconds
+
+ ! Mean wall time for MPI communications     :  0.200 seconds
+
+ ! Mean wall time for t-step with matrix calc:  3.436E-02 seconds
+
+ ! Mean wall time for output routine         :  2.143E-04 seconds
+
+ ! Mean wall time for one time step          :  8.587E-04 seconds
+
+ ! Total run time:  4 m 12 s 530 ms
+
+
+ ! STOPPING TIME INTEGRATION AT:
+   stop time =  1.0000000000E-01
+   stop step =      1001
+   steps gone=      1000
+
+ !!! regular end of program MagIC !!!
+
+
+
+  !***********************************!
+  !---- THANK YOU FOR USING MAGIC ----!
+  !---- ALWAYS HAPPY TO PLEASE YOU ---!
+  !--------  call BACK AGAIN ---------!
+  !- GET YOUR NEXT DYNAMO WITH MAGIC -!
+  !***********************************!
+                                   JW  
+

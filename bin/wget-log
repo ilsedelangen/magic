@@ -1,0 +1,25 @@
+--2024-07-02 16:06:11--  https://bitbucket.org/nschaeff/shtns/downloads/shtns-3.5.2.tar.gz
+Resolving bitbucket.org (bitbucket.org)... 104.192.141.1, 2406:da00:ff00::22e9:9f55, 2406:da00:ff00::22cd:e0db, ...
+Connecting to bitbucket.org (bitbucket.org)|104.192.141.1|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://bbuseruploads.s3.amazonaws.com/b4a944b4-1e89-49e6-a882-17c1daa9079b/downloads/cbdebb0c-49bc-4c72-a546-147c57f32150/shtns-3.5.2.tar.gz?response-content-disposition=attachment%3B%20filename%3D%22shtns-3.5.2.tar.gz%22&response-content-encoding=None&AWSAccessKeyId=ASIA6KOSE3BNESU6HLN5&Signature=%2B%2FaNH0WIyow26DLoX3bdwwxeSTs%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQDkeiGwal%2FhLqIy6dR53HnQ50m3PgIBjFdGUPoJrbUI9wIgcSzztuJQpxju9rfWRZgfKNzvnsl17JWkqcLVh1lDSr0qpwIIdxAAGgw5ODQ1MjUxMDExNDYiDIiBYrKd%2B%2FcWiUAkxCqEAiyaDMGKAAmi5eetwXGyvRA1ALyycZSxMd0HPbJRxGMtxHkYiW7E1hG%2Ba%2FFT%2FSmAbNqQ3g8iX%2BBKfgWQjQJTUaf1wCy0JjrpOdJjN%2FIw%2BQbHq1Zg%2BM9fdxMnDtuoyMrOQvr4%2F3AeUZ%2FSAP4ZUG%2BguFbSesiBY0xJZx8avyRxHxZP1r58%2Bzxzvzxwo9mEx2a9Ncb0%2F2jEDiDpCPzCtJhCJ%2FbdInIl3oPcJnuGtPri2QyI7iuOek%2FM8VGHYSpqp1kW0nYgrf9v%2B6D87mDoB%2FfQCTBLv3cX4BJRI%2FbpTL7M85wB9tzr%2BefxqONBgVjWU6f9q9Yvue15dk9R%2BZ%2FGMfkebekidEdaMNOSkLQGOp0BuIVPQq4NMW0hgqVxcjvDpmLaUPpBZ4TP1zebuaiuJGxhADPAvmMUvSK3l7vcWqJOyfIe1apWlEoIa5MZvQrBbO%2BWF8P2TLo95%2B2B5iQc4MPGeJFvvueAS9MEMHirwSUpk30p2XgPPOd9FMbDr7vD65IJZF8%2FWrsLk7dKnl3jEcs9WRsqzqOjLi5d1lSAsevuI2NRSSijYMEa%2FFKZUg%3D%3D&Expires=1719930971 [following]
+--2024-07-02 16:06:11--  https://bbuseruploads.s3.amazonaws.com/b4a944b4-1e89-49e6-a882-17c1daa9079b/downloads/cbdebb0c-49bc-4c72-a546-147c57f32150/shtns-3.5.2.tar.gz?response-content-disposition=attachment%3B%20filename%3D%22shtns-3.5.2.tar.gz%22&response-content-encoding=None&AWSAccessKeyId=ASIA6KOSE3BNESU6HLN5&Signature=%2B%2FaNH0WIyow26DLoX3bdwwxeSTs%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIQDkeiGwal%2FhLqIy6dR53HnQ50m3PgIBjFdGUPoJrbUI9wIgcSzztuJQpxju9rfWRZgfKNzvnsl17JWkqcLVh1lDSr0qpwIIdxAAGgw5ODQ1MjUxMDExNDYiDIiBYrKd%2B%2FcWiUAkxCqEAiyaDMGKAAmi5eetwXGyvRA1ALyycZSxMd0HPbJRxGMtxHkYiW7E1hG%2Ba%2FFT%2FSmAbNqQ3g8iX%2BBKfgWQjQJTUaf1wCy0JjrpOdJjN%2FIw%2BQbHq1Zg%2BM9fdxMnDtuoyMrOQvr4%2F3AeUZ%2FSAP4ZUG%2BguFbSesiBY0xJZx8avyRxHxZP1r58%2Bzxzvzxwo9mEx2a9Ncb0%2F2jEDiDpCPzCtJhCJ%2FbdInIl3oPcJnuGtPri2QyI7iuOek%2FM8VGHYSpqp1kW0nYgrf9v%2B6D87mDoB%2FfQCTBLv3cX4BJRI%2FbpTL7M85wB9tzr%2BefxqONBgVjWU6f9q9Yvue15dk9R%2BZ%2FGMfkebekidEdaMNOSkLQGOp0BuIVPQq4NMW0hgqVxcjvDpmLaUPpBZ4TP1zebuaiuJGxhADPAvmMUvSK3l7vcWqJOyfIe1apWlEoIa5MZvQrBbO%2BWF8P2TLo95%2B2B5iQc4MPGeJFvvueAS9MEMHirwSUpk30p2XgPPOd9FMbDr7vD65IJZF8%2FWrsLk7dKnl3jEcs9WRsqzqOjLi5d1lSAsevuI2NRSSijYMEa%2FFKZUg%3D%3D&Expires=1719930971
+Resolving bbuseruploads.s3.amazonaws.com (bbuseruploads.s3.amazonaws.com)... 16.182.41.49, 16.182.102.41, 52.216.8.131, ...
+Connecting to bbuseruploads.s3.amazonaws.com (bbuseruploads.s3.amazonaws.com)|16.182.41.49|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 467315 (456K) [application/gzip]
+Saving to: ‘shtns-3.5.2.tar.gz’
+
+     0K .......... .......... .......... .......... .......... 10%  521K 1s
+    50K .......... .......... .......... .......... .......... 21%  518K 1s
+   100K .......... .......... .......... .......... .......... 32%  521K 1s
+   150K .......... .......... .......... .......... .......... 43% 23.1M 0s
+   200K .......... .......... .......... .......... .......... 54% 71.4M 0s
+   250K .......... .......... .......... .......... .......... 65%  193M 0s
+   300K .......... .......... .......... .......... .......... 76%  526K 0s
+   350K .......... .......... .......... .......... .......... 87% 23.6M 0s
+   400K .......... .......... .......... .......... .......... 98%  204M 0s
+   450K ......                                                100% 12135G=0.4s
+
+2024-07-02 16:06:12 (1.15 MB/s) - ‘shtns-3.5.2.tar.gz’ saved [467315/467315]
+

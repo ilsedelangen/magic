@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --job-name=test        # Job name
+#SBATCH --partition=swan                        # Partition to use
+#SBATCH --qos=swan_default                     # QOS to be used
+#SBATCH --mail-type=END,FAIL                  # Mail events (NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --mail-user=delangen@mps.mpg.de         # Where to send mail
+#SBATCH --nodes=1                             # Run all processes on a single node
+#SBATCH --ntasks=32                   # no. of MPI tasks
+#SBATCH --time=01:00:00                       # Time limit hrs:min:sec
+#SBATCH --mem=256G                       # Time limit hrs:min:sec
+#SBATCH -o run-comm_%j.out                    # redirect STDOUT to file
+#SBATCH -e run-comm_%j.err                    # same for STDERR
+#SBATCH --export=ALL                          # Export all environment vars. to mpi tasks
+#SBATCH	--account=planets
+###SBATCH --dependency=afterok:3232944          # afterok:jobid
+
+
+
+MODULES="GCC/12.3.0 OpenMPI/4.1.5 FFTW.MPI/3.3.10 ScaLAPACK/2.2.0-fb"            # name(s) of module(s) to load
+. $MODULESHOME/init/bash                        # initialize modules environment
+module load $MODULES                            # load module(s)
+
+mpirun ~/magic_swan_gcc/magic/build/magic.exe  input.nml
+
+module unload $MODULES                          # unload module(s)  
