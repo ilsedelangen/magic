@@ -55,7 +55,7 @@ module rIter_mod
    use RMS, only: get_nl_RMS, transform_to_lm_RMS, compute_lm_forces, &
        &          transform_to_grid_RMS
    use probe_mod
-   use special, only: ellip_fac_cmb, ellip_fac_icb, amp_tide, l_radial_flow_bc
+   use special, only: ellip_fac_icb, l_radial_flow_bc
 
    implicit none
 
@@ -361,8 +361,8 @@ contains
 
          !-- Kinetic energy in the solid and liquid phases
          if ( lPhaseCalc ) then
-            call get_ekin_solid_liquid(this%gsa%sc,this%gsa%vrc,this%gsa%vtc, &
-                 &                     this%gsa%vpc,this%gsa%phic,nR)
+            call get_ekin_solid_liquid(this%gsa%sc,this%gsa%drsc,this%gsa%vrc, &
+                 &                     this%gsa%vtc,this%gsa%vpc,this%gsa%phic,nR)
          end if
 
          !-- Kinetic energy parallel and perpendicular to rotation axis
@@ -704,7 +704,7 @@ contains
          call spat_to_qst(this%gsa%VXir, this%gsa%VXit, this%gsa%VXip, &
               &           dVXirLM, this%nl_lm%VXitLM, this%nl_lm%VXipLM, l_R(nR))
       end if
-      if( l_phase_field ) call scal_to_SH(this%gsa%phiTerms, dphidt,l_R(nR))
+      if ( l_phase_field ) call scal_to_SH(this%gsa%phiTerms, dphidt,l_R(nR))
       if ( l_mag_nl ) then
          if ( nR>n_r_LCR ) then
             call spat_to_qst(this%gsa%VxBr, this%gsa%VxBt, this%gsa%VxBp, &
