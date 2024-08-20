@@ -28,6 +28,8 @@ module special
    real(cp), public :: Le         ! Lehnert number defined by the magnetic field at the centre
    real(cp), public :: amp_curr   ! Amplitude of magnetic field of current loop to be scaled by Lehnert
    real(cp), public :: loopRadRatio   ! Radius ratio of outer boundary/current loop
+   real(cp), public :: freq_imp         ! Frequency of the imposed magnetic field
+   real(cp), public :: phi0         ! Phase of the imposed magnetic field at t=0
    real(cp), public, allocatable :: fac_loop(:)  ! Array of factors for computing magnetic field for loop
 
    !-- Parameters for a toroidal boundary forcing of symmetry (m,m) or (m+1,m)
