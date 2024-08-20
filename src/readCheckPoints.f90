@@ -27,7 +27,7 @@ module readCheckPoints
        &                  tShift_ma1,tShift_ma2,tipdipole, scale_b, scale_v,   &
        &                  scale_s,scale_xi
    use radial_functions, only: rscheme_oc, chebt_ic, cheb_norm_ic, r
-   use num_param, only: alph1, alph2, alpha
+   use num_param, only: alph1, alph2, alpha, tScale
    use radial_data, only: n_r_icb, n_r_cmb
    use physical_parameters, only: ra, ek, pr, prmag, radratio, sigma_ratio, &
        &                          kbotv, ktopv, sc, raxi, LFfac
@@ -886,6 +886,7 @@ contains
             dt_array_old(nexp_old+1:)=dt_array_old(nexp_old)
          else
             read(n_start_file) time
+            time = time/tScale
             read(n_start_file) tscheme_family_old
             read(n_start_file) nexp_old
             read(n_start_file) nimp_old
@@ -902,7 +903,8 @@ contains
                read(n_start_file) dt_array_old(1)
                dt_array_old(2:size(tscheme%dt))=dt_array_old(1)
             end if
-
+            
+            dt_array_old(:)=dt_array_old(:) / tScale
             read(n_start_file) n_time_step
          end if
 
@@ -1699,6 +1701,7 @@ contains
          return
       end if
       call MPI_File_Read(fh, time, 1, MPI_DEF_REAL, istat, ierr)
+      time = time/tScale
       if ( version == 1 ) then ! This was CN/AB2 in the initial version
          allocate( dt_array_old(max(2,tscheme%nexp)) )
          dt_array_old(:)=0.0_cp
@@ -1727,6 +1730,7 @@ contains
             dt_array_old(2:size(tscheme%dt))=dt_array_old(1)
          end if
       end if
+      dt_array_old(:)=dt_array_old(:) / tScale
       call MPI_File_Read(fh, n_time_step, 1, MPI_INTEGER, istat, ierr)
       call MPI_File_Read(fh, ra_old, 1, MPI_DEF_REAL, istat, ierr)
       call MPI_File_Read(fh, pr_old, 1, MPI_DEF_REAL, istat, ierr)
