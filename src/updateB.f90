@@ -29,7 +29,7 @@ module updateB_mod
    use RMS, only: dtBPolLMr, dtBPol2hInt, dtBTor2hInt
    use constants, only: pi, zero, one, two, three, half
    use special, only: n_imp, l_imp, amp_imp, expo_imp, bmax_imp, rrMP, l_curr, &
-       &              amp_curr, fac_loop
+       &              amp_curr, fac_loop, freq_imp, phi0
    use fields, only: work_LMloc
    use radial_der_even, only: get_ddr_even
    use radial_der, only: get_dr, get_ddr, get_dr_Rloc, get_ddr_ghost, exch_ghosts, &
