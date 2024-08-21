@@ -70,7 +70,7 @@ endif()
 
 # Link MKL
 if(USE_LAPACKLIB MATCHES MKL AND USE_FFTLIB MATCHES MKL)
-   add_library(lapack95 ${MKLROOT}/include/lapack.f90)
+   add_library(lapack95 ${MKLROOT}/include/mkl_lapack.f90)
    target_link_libraries(lapack95 ${MKLCORE} ${MKLLAPACK} ${MKLSEQ} ${MKL64})
    target_link_libraries(${EXEC} lapack95)
 elseif(USE_LAPACKLIB MATCHES MKL AND USE_FFTLIB MATCHES JW)
