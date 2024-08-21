@@ -91,7 +91,7 @@ contains
 
       namelist/B_external/                                     &
       &    rrMP,amp_imp,expo_imp,bmax_imp,n_imp,l_imp,         &
-      &    Le, loopRadRatio, freq_imp, phi0
+      &    Le, loopRadRatio, freq_imp, phi0, phi1
 
       namelist/start_field/                                    &
       &    l_start_file,start_file,inform,l_reset_t,           &
