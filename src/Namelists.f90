@@ -91,7 +91,7 @@ contains
 
       namelist/B_external/                                     &
       &    rrMP,amp_imp,expo_imp,bmax_imp,n_imp,l_imp,         &
-      &    Le, loopRadRatio, freq_imp, phi0, phi1, phi2
+      &    Le, loopRadRatio!, freq_imp, phi0
 
       namelist/start_field/                                    &
       &    l_start_file,start_file,inform,l_reset_t,           &
@@ -385,6 +385,8 @@ contains
          l_mag    =.false.
          l_mag_nl =.false.
          l_mag_LF =.false.
+      else if ( mode == 11 ) then
+         l_mag_nl =.false.
       end if
 
       if ( mode == 7 .or. mode == 8 .or. mode == 9 .or. mode == 10 ) then
@@ -1073,8 +1075,8 @@ contains
 
       write(n_out,'(''  Le              ='',ES14.6,'','')') Le
       write(n_out,'(''  loopRadRatio    ='',ES14.6,'','')') loopRadRatio
-      write(n_out,'(''  freq_imp              ='',ES14.6,'','')') freq_imp
-      write(n_out,'(''  phi0              ='',ES14.6,'','')') phi0
+      !write(n_out,'(''  freq_imp              ='',ES14.6,'','')') freq_imp
+      !write(n_out,'(''  phi0              ='',ES14.6,'','')') phi0
 
       write(n_out,*) "/"
 
@@ -1454,8 +1456,8 @@ contains
 
       Le             =0.0_cp  !Current loop switched off
       loopRadRatio   =1.46_cp/1.89_cp ! 3m value
-      freq_imp       =0.0_cp
-      phi0           =0.0_cp
+      !freq_imp       =0.0_cp
+      !phi0           =0.0_cp
 
       !----- Namelist start_field:
       l_start_file  =.false.
