@@ -1,5 +1,6 @@
 /home/delangen/magic_swan_gcc/magic/build/CMakeFiles/rebuild_cache.dir
 /home/delangen/magic_swan_gcc/magic/build/CMakeFiles/edit_cache.dir
 /home/delangen/magic_swan_gcc/magic/build/src/CMakeFiles/rebuild_cache.dir
+/home/delangen/magic_swan_gcc/magic/build/src/CMakeFiles/lapack95.dir
 /home/delangen/magic_swan_gcc/magic/build/src/CMakeFiles/edit_cache.dir
 /home/delangen/magic_swan_gcc/magic/build/src/CMakeFiles/magic.exe.dir

@@ -14,14 +14,14 @@ def getver():
 numpy_inc = get_include()		#  NumPy include path.
 objs = "sht_init.o sht_kernels_a.o sht_kernels_s.o sht_odd_nlat.o sht_fly.o sht_omp.o"
 shtns_o = objs.split()			# transform to list of objects
-libdir = "/home/delangen/magic_swan/magic/local"
+libdir = "/home/delangen/magic_swan_gcc/magic/local"
 if len(libdir) == 0:
 	libdir = []
 else:
 	libdir = [libdir+"/lib"]
 cargs = '-std=c99 -fopenmp -DSHTNS_VER="' + getver() +'"'
-largs = ""
-libs = "-lfftw3_omp -lfftw3 -lm "
+largs = " -L/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64"
+libs = "-Wl,--start-group -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -Wl,--end-group -lm "
 libslist = libs.replace('-l','').split()	# transform to list of libraries
 
 shtns_module = Extension('_shtns', sources=['shtns_numpy_wrap.c'],

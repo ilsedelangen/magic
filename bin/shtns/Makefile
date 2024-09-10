@@ -1,16 +1,16 @@
 ## path prefix for make install (installs to $(PREFIX)/lib and $(PREFIX)/include)
-PREFIX=/home/delangen/magic_swan/magic/local
+PREFIX=/home/delangen/magic_swan_gcc/magic/local
 SED=/usr/bin/sed
-LIBS=-lfftw3_omp -lfftw3 -lm 
+LIBS=-Wl,--start-group -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -Wl,--end-group -lm 
 PYTHON=
 shtns_ver := $(shell grep -m 1 -e "^* v" CHANGELOG.md | sed -e "s/^* v\([^ ]*\).*/-DSHTNS_VER=\\\\\"\1\\\\\"/")
 git_id := $(shell git describe --tags --always --dirty=*)
 
 # compiler command with options for the sht codelets
-shtcc=gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE
+shtcc=gcc -O2 -I/home/delangen/magic_swan_gcc/magic/local/include -L/home/delangen/magic_swan_gcc/magic/local/lib -march=native -mtune=skylake -O3 -ffast-math -std=gnu99 -fopenmp-simd -fno-tree-loop-distribute-patterns -mno-vzeroupper -D_GNU_SOURCE
 # compiler command with options for other source (initialization, ...)
-cc=gcc -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"$(git_id)\" $(shtns_ver) 
-fc=mpiifort -O2 -I/home/delangen/magic_swan/magic/local/include -L/home/delangen/magic_swan/magic/local/lib 
+cc=gcc -O2 -I/home/delangen/magic_swan_gcc/magic/local/include -L/home/delangen/magic_swan_gcc/magic/local/lib -march=native -mtune=skylake -ffast-math -std=gnu99 -fopenmp -D_GNU_SOURCE -DSHTNS_GIT=\"$(git_id)\" $(shtns_ver)  -L/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64
+fc=mpif90 -O2 -I/home/delangen/magic_swan_gcc/magic/local/include -L/home/delangen/magic_swan_gcc/magic/local/lib  -L/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64
 
 hfiles = sht_private.h sht_config.h shtns.h shtns_simd.h
 objs = sht_init.o sht_kernels_a.o sht_kernels_s.o sht_odd_nlat.o sht_fly.o sht_omp.o
@@ -29,7 +29,7 @@ libshtns_omp.a : Makefile $(objs)
 	@echo " "
 	@cat COPYRIGHT
 	@echo " "
-	@echo "**** link with :  -lfftw3_omp -lfftw3 -lm "
+	@echo "**** link with :  -L/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64 -Wl,--start-group -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -Wl,--end-group -lm "
 
 install-lib : $(libname)
 	@mkdir -p $(PREFIX)/lib/
@@ -41,7 +41,7 @@ install-lib : $(libname)
 	@echo " "
 	@cat COPYRIGHT
 	@echo " "
-	@echo "**** link with : -L$(PREFIX)/lib  -lfftw3_omp -lfftw3 -lm "
+	@echo "**** link with : -L$(PREFIX)/lib  -L/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64 -Wl,--start-group -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -Wl,--end-group -lm "
 
 # codelets :
 SHT/SH_to_spat.c : SHT/hyb_SH_to_spat.gen.c

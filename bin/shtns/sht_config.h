@@ -32,7 +32,7 @@
 /* #undef HAVE_LIBCUFFT */
 
 /* Define to 1 if you have the `fftw3' library (-lfftw3). */
-#define HAVE_LIBFFTW3 1
+/* #undef HAVE_LIBFFTW3 */
 
 /* Define to 1 if you have the `fftw3_omp' library (-lfftw3_omp). */
 #define HAVE_LIBFFTW3_OMP 1

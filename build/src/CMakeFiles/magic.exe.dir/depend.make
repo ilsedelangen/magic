@@ -243,7 +243,7 @@ src/CMakeFiles/magic.exe.dir/courant.f90.o.provides.build:
 	$(CMAKE_COMMAND) -E touch src/CMakeFiles/magic.exe.dir/courant.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/build: src/CMakeFiles/magic.exe.dir/courant.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o: \
- /usr/include/fftw3.f03
+ /sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/fftw/fftw3.f03
 src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o: src/CMakeFiles/magic.exe.dir/blocking.mod.stamp
 src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o: src/CMakeFiles/magic.exe.dir/constants.mod.stamp
 src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o: src/CMakeFiles/magic.exe.dir/mem_alloc.mod.stamp
@@ -333,7 +333,7 @@ src/CMakeFiles/magic.exe.dir/fft_fac.f90.o.provides.build:
 	$(CMAKE_COMMAND) -E touch src/CMakeFiles/magic.exe.dir/fft_fac.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/build: src/CMakeFiles/magic.exe.dir/fft_fac.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o: \
- /usr/include/fftw3.f03
+ /sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/fftw/fftw3.f03
 src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o: src/CMakeFiles/magic.exe.dir/constants.mod.stamp
 src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o: src/CMakeFiles/magic.exe.dir/precision_mod.mod.stamp
 src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o: src/CMakeFiles/magic.exe.dir/truncation.mod.stamp
@@ -1004,7 +1004,6 @@ src/CMakeFiles/magic.exe.dir/phys_param.f90.o.provides.build:
 src/CMakeFiles/magic.exe.dir/build: src/CMakeFiles/magic.exe.dir/phys_param.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/plms.f90.o: src/CMakeFiles/magic.exe.dir/constants.mod.stamp
 src/CMakeFiles/magic.exe.dir/plms.f90.o: src/CMakeFiles/magic.exe.dir/precision_mod.mod.stamp
-src/CMakeFiles/magic.exe.dir/plms.f90.o: src/CMakeFiles/magic.exe.dir/useful.mod.stamp
 src/CMakeFiles/magic.exe.dir/plms.f90.o.provides.build: src/CMakeFiles/magic.exe.dir/plms_theta.mod.stamp
 src/CMakeFiles/magic.exe.dir/plms_theta.mod.stamp: src/CMakeFiles/magic.exe.dir/plms.f90.o
 	$(CMAKE_COMMAND) -E cmake_copy_f90_mod modules/plms_theta.mod src/CMakeFiles/magic.exe.dir/plms_theta.mod.stamp GNU
@@ -1256,7 +1255,7 @@ src/CMakeFiles/magic.exe.dir/readCheckPoints.f90.o.provides.build:
 	$(CMAKE_COMMAND) -E touch src/CMakeFiles/magic.exe.dir/readCheckPoints.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/build: src/CMakeFiles/magic.exe.dir/readCheckPoints.f90.o.provides.build
 src/CMakeFiles/magic.exe.dir/shtns.f90.o: \
- /home/delangen/magic_swan/magic/local/include/shtns.f03
+ ../local/include/shtns.f03
 src/CMakeFiles/magic.exe.dir/shtns.f90.o: src/CMakeFiles/magic.exe.dir/blocking.mod.stamp
 src/CMakeFiles/magic.exe.dir/shtns.f90.o: src/CMakeFiles/magic.exe.dir/constants.mod.stamp
 src/CMakeFiles/magic.exe.dir/shtns.f90.o: src/CMakeFiles/magic.exe.dir/horizontal_data.mod.stamp

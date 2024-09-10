@@ -1,0 +1,2 @@
+/sw/eb/binutils/2.40-GCCcore-12.3.0/bin/ar qc liblapack95.a CMakeFiles/lapack95.dir/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.o
+/sw/eb/binutils/2.40-GCCcore-12.3.0/bin/ranlib liblapack95.a

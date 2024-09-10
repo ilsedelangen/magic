@@ -1486,9 +1486,14 @@ magic.exe: src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o
 magic.exe: src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o
 magic.exe: src/CMakeFiles/magic.exe.dir/algebra_lapack.f90.o
 magic.exe: src/CMakeFiles/magic.exe.dir/build.make
-magic.exe: /sw/eb/FlexiBLAS/3.3.1-GCC-12.3.0/lib/libflexiblas.so
-magic.exe: /home/delangen/magic_swan/magic/local/lib/libshtns.a
-magic.exe: /sw/eb/FFTW.MPI/3.3.10-gompi-2023a/lib/libfftw3.so
+magic.exe: src/liblapack95.a
+magic.exe: ../local/lib/libshtns.a
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_core.so
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_sequential.so
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_gf_lp64.so
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_lapack95_lp64.a
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_sequential.so
+magic.exe: /sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_gf_lp64.so
 magic.exe: src/CMakeFiles/magic.exe.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/delangen/magic_swan_gcc/magic/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_95) "Linking Fortran executable ../magic.exe"
 	cd /home/delangen/magic_swan_gcc/magic/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/magic.exe.dir/link.txt --verbose=$(VERBOSE)

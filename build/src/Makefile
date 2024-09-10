@@ -117,6 +117,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+src/CMakeFiles/lapack95.dir/rule:
+	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/lapack95.dir/rule
+.PHONY : src/CMakeFiles/lapack95.dir/rule
+
+# Convenience name for target.
+lapack95: src/CMakeFiles/lapack95.dir/rule
+.PHONY : lapack95
+
+# fast build rule for target.
+lapack95/fast:
+	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/lapack95.dir/build.make src/CMakeFiles/lapack95.dir/build
+.PHONY : lapack95/fast
+
+# Convenience name for target.
 src/CMakeFiles/magic.exe.dir/rule:
 	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/magic.exe.dir/rule
 .PHONY : src/CMakeFiles/magic.exe.dir/rule
@@ -2098,6 +2112,30 @@ store_movie_IC.f90.s:
 	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/magic.exe.dir/build.make src/CMakeFiles/magic.exe.dir/store_movie_IC.f90.s
 .PHONY : store_movie_IC.f90.s
 
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.o: sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.o
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.o
+
+# target to build an object file
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.o:
+	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/lapack95.dir/build.make src/CMakeFiles/lapack95.dir/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.o
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.o
+
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.i: sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.i
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.i
+
+# target to preprocess a source file
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.i:
+	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/lapack95.dir/build.make src/CMakeFiles/lapack95.dir/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.i
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.i
+
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.s: sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.s
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.s
+
+# target to generate assembly for a file
+sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.s:
+	cd /home/delangen/magic_swan_gcc/magic/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/lapack95.dir/build.make src/CMakeFiles/lapack95.dir/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.s
+.PHONY : sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.f90.s
+
 time_array.o: time_array.f90.o
 .PHONY : time_array.o
 
@@ -2394,6 +2432,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... lapack95"
 	@echo "... magic.exe"
 	@echo "... LMLoop.o"
 	@echo "... LMLoop.i"
@@ -2641,6 +2680,9 @@ help:
 	@echo "... store_movie_IC.o"
 	@echo "... store_movie_IC.i"
 	@echo "... store_movie_IC.s"
+	@echo "... sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.o"
+	@echo "... sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.i"
+	@echo "... sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/mkl_lapack.s"
 	@echo "... time_array.o"
 	@echo "... time_array.i"
 	@echo "... time_array.s"

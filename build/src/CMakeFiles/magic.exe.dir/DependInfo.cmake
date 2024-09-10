@@ -109,11 +109,11 @@ set(CMAKE_Fortran_SUBMODULE_EXT ".smod")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_Fortran
-  "BUILD_DATE=\"2024/07/02 16:20:46\""
+  "BUILD_DATE=\"2024/09/09 13:51:41\""
   "COMP_OPT"
   "DEFAULT_OUTPUT_PRECISION=sngl"
   "DEFAULT_PRECISION=dble"
-  "GIT_VERSION=\"v6.3-8-ga23c257\""
+  "GIT_VERSION=\"v6.3-41-gc18c53f\""
   "SHT_PADDING"
   "USE_DCT_FFT"
   "WITH_MPI"
@@ -128,8 +128,10 @@ set(CMAKE_TARGET_DEFINITIONS_Fortran
 
 # The include file search paths:
 set(CMAKE_Fortran_TARGET_INCLUDE_PATH
+  "/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include"
+  "/sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/fftw"
   "/usr/include"
-  "/home/delangen/magic_swan/magic/local/include"
+  "../local/include"
   )
 
 # The set of dependency files which are needed:
@@ -138,6 +140,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/home/delangen/magic_swan_gcc/magic/build/src/CMakeFiles/lapack95.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

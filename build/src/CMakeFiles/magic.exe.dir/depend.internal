@@ -34,7 +34,7 @@ src/CMakeFiles/magic.exe.dir/courant.f90.o
  /home/delangen/magic_swan_gcc/magic/src/courant.f90
 src/CMakeFiles/magic.exe.dir/dct_fftw.f90.o
  /home/delangen/magic_swan_gcc/magic/src/dct_fftw.f90
- /usr/include/fftw3.f03
+ /sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/fftw/fftw3.f03
 src/CMakeFiles/magic.exe.dir/debugging.f90.o
  /home/delangen/magic_swan_gcc/magic/src/debugging.f90
 src/CMakeFiles/magic.exe.dir/dirk_schemes.f90.o
@@ -49,7 +49,7 @@ src/CMakeFiles/magic.exe.dir/fft_fac.f90.o
  /home/delangen/magic_swan_gcc/magic/src/fft_fac.f90
 src/CMakeFiles/magic.exe.dir/fft_fftw.f90.o
  /home/delangen/magic_swan_gcc/magic/src/fft_fftw.f90
- /usr/include/fftw3.f03
+ /sw/eb/imkl/2023.1.0/mkl/2023.1.0/include/fftw/fftw3.f03
 src/CMakeFiles/magic.exe.dir/fields.f90.o
  /home/delangen/magic_swan_gcc/magic/src/fields.f90
 src/CMakeFiles/magic.exe.dir/fields_average.f90.o
@@ -156,7 +156,7 @@ src/CMakeFiles/magic.exe.dir/readCheckPoints.f90.o
  /home/delangen/magic_swan_gcc/magic/src/readCheckPoints.f90
 src/CMakeFiles/magic.exe.dir/shtns.f90.o
  /home/delangen/magic_swan_gcc/magic/src/shtns.f90
- /home/delangen/magic_swan/magic/local/include/shtns.f03
+ ../local/include/shtns.f03
 src/CMakeFiles/magic.exe.dir/signals.f90.o
  /home/delangen/magic_swan_gcc/magic/src/signals.f90
 src/CMakeFiles/magic.exe.dir/special.f90.o

@@ -23,33 +23,6 @@ AVX2_FOUND:BOOL=true
 //AVX available on host
 AVX_FOUND:BOOL=true
 
-//Path to a library.
-BLAS_flexiblas_LIBRARY:FILEPATH=/sw/eb/FlexiBLAS/3.3.1-GCC-12.3.0/lib/libflexiblas.so
-
-//Path to a library.
-BLAS_goto2_LIBRARY:FILEPATH=BLAS_goto2_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_LIBRARY:FILEPATH=BLAS_mkl_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_em64t_LIBRARY:FILEPATH=BLAS_mkl_em64t_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_gf_LIBRARY:FILEPATH=BLAS_mkl_gf_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_gf_lp64_LIBRARY:FILEPATH=BLAS_mkl_gf_lp64_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_ia32_LIBRARY:FILEPATH=BLAS_mkl_ia32_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLAS_mkl_rt_LIBRARY:FILEPATH=BLAS_mkl_rt_LIBRARY-NOTFOUND
-
-//Path to a library.
-BLIS:FILEPATH=BLIS-NOTFOUND
-
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/sw/eb/binutils/2.40-GCCcore-12.3.0/bin/addr2line
 
@@ -275,7 +248,16 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 FFTW3:FILEPATH=/sw/eb/FFTW.MPI/3.3.10-gompi-2023a/lib/libfftw3.so
 
 //Path to a library.
-FLAME:FILEPATH=FLAME-NOTFOUND
+MKL64:FILEPATH=/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_gf_lp64.so
+
+//Path to a library.
+MKLCORE:FILEPATH=/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_core.so
+
+//Path to a library.
+MKLLAPACK:FILEPATH=/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_lapack95_lp64.a
+
+//Path to a library.
+MKLSEQ:FILEPATH=/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_sequential.so
 
 //Found the MPI library
 MPI_FOUND:BOOL=TRUE
@@ -290,7 +272,7 @@ OUT_PREC:STRING=sngl
 PRECISION:STRING=dble
 
 //Path to a library.
-SHTNS:FILEPATH=/home/delangen/magic_swan/magic/local/lib/libshtns.a
+SHTNS:FILEPATH=/home/delangen/magic_swan_gcc/magic/local/lib/libshtns.a
 
 //SSE2 available on host
 SSE2_FOUND:BOOL=true
@@ -325,6 +307,9 @@ USE_PRECOND:STRING=yes
 //Use libshtns for SH projection
 USE_SHTNS:STRING=yes
 
+//Dependencies for the target
+lapack95_LIB_DEPENDS:STATIC=general;/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_core.so;general;/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_lapack95_lp64.a;general;/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_sequential.so;general;/sw/eb/imkl/2023.1.0/mkl/2023.1.0/lib/intel64/libmkl_gf_lp64.so;
+
 //Value Computed by CMake
 magic_BINARY_DIR:STATIC=/home/delangen/magic_swan_gcc/magic/build
 
@@ -338,26 +323,6 @@ magic_SOURCE_DIR:STATIC=/home/delangen/magic_swan_gcc/magic
 
 //ADVANCED property for variable: AVX2_FOUND
 AVX2_FOUND-ADVANCED:INTERNAL=1
-//Have Fortran function sgemm
-BLAS_WORKS:INTERNAL=
-//ADVANCED property for variable: BLAS_flexiblas_LIBRARY
-BLAS_flexiblas_LIBRARY-ADVANCED:INTERNAL=1
-//Have Fortran function sgemm
-BLAS_flexiblas_WORKS:INTERNAL=1
-//ADVANCED property for variable: BLAS_goto2_LIBRARY
-BLAS_goto2_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_LIBRARY
-BLAS_mkl_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_em64t_LIBRARY
-BLAS_mkl_em64t_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_gf_LIBRARY
-BLAS_mkl_gf_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_gf_lp64_LIBRARY
-BLAS_mkl_gf_lp64_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_ia32_LIBRARY
-BLAS_mkl_ia32_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: BLAS_mkl_rt_LIBRARY
-BLAS_mkl_rt_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -454,14 +419,6 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
-//Test CMAKE_HAVE_LIBC_PTHREAD
-CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=
-//Have library pthreads
-CMAKE_HAVE_PTHREADS_CREATE:INTERNAL=
-//Have library pthread
-CMAKE_HAVE_PTHREAD_CREATE:INTERNAL=1
-//Have include pthread.h
-CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/delangen/magic_swan_gcc/magic
@@ -529,14 +486,6 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Result of TRY_COMPILE
 COMP_OPT_AV:INTERNAL=TRUE
-//Details about finding BLAS
-FIND_PACKAGE_MESSAGE_DETAILS_BLAS:INTERNAL=[/sw/eb/FlexiBLAS/3.3.1-GCC-12.3.0/lib/libflexiblas.so][v()]
-//Details about finding LAPACK
-FIND_PACKAGE_MESSAGE_DETAILS_LAPACK:INTERNAL=[/sw/eb/FlexiBLAS/3.3.1-GCC-12.3.0/lib/libflexiblas.so;-lpthread;-lm;-ldl][v()]
-//Details about finding Threads
-FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-//Have Fortran function cheev
-LAPACK_WORKS:INTERNAL=1
 //Result of TRY_COMPILE
 SHTNS_LINK:INTERNAL=TRUE
 //Result of TRY_RUN
