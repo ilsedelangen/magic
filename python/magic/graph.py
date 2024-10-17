@@ -18,7 +18,6 @@ if buildSo:
 else:
     readingMode = 'python'
 
-print(readingMode)
 
 
 def getGraphEndianness(filename):
@@ -189,6 +188,9 @@ class MagicGraph(MagicSetup):
                 self.Br = G.br
                 self.Btheta = G.bt
                 self.Bphi = G.bp
+                self.LFr = G.lfr
+                self.LFtheta = G.lft
+                self.LFphi = G.lfp
 
             if self.prmag != 0 and self.n_r_ic_max > 1:
                 self.radius_ic = G.radius_ic
@@ -196,6 +198,7 @@ class MagicGraph(MagicSetup):
                 self.Btheta_ic = G.bt_ic
                 self.Bphi_ic = G.bp_ic
         else:
+            print(access)
             if access == 'rm':
                 self.read_record_marker(filename, endian, quiet=quiet)
             elif access == 'st':
@@ -272,6 +275,9 @@ class MagicGraph(MagicSetup):
                                        self.precision)
                 self.Btheta_ic = np.zeros_like(self.Br_ic)
                 self.Bphi_ic = np.zeros_like(self.Br_ic)
+            self.LFr = np.zeros_like(self.vr)
+            self.LFt = np.zeros_like(self.vr)
+            self.LFp = np.zeros_like(self.vr)
 
         # Outer core
         for i in range(self.nr):
@@ -300,6 +306,13 @@ class MagicGraph(MagicSetup):
                 self.Btheta[:, :, i] = dat.reshape(self.npI, self.ntheta)
                 dat = np.fromfile(f, fmt, count=self.ntheta*self.npI)
                 self.Bphi[:, :, i] = dat.reshape(self.npI, self.ntheta)
+                
+                dat = np.fromfile(f, fmt, count=self.ntheta*self.npI)
+                self.LFr[:, :, i] = dat.reshape(self.npI, self.ntheta)
+                dat = np.fromfile(f, fmt, count=self.ntheta*self.npI)
+                self.LFp[:, :, i] = dat.reshape(self.npI, self.ntheta)
+                dat = np.fromfile(f, fmt, count=self.ntheta*self.npI)
+                self.LFt[:, :, i] = dat.reshape(self.npI, self.ntheta)
 
         # Inner core
         if ( l_mag != 0 and self.n_r_ic_max > 1 ):
