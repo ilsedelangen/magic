@@ -54,6 +54,28 @@ def selectField(obj, field, labTex=True, ic=False):
             data_ic = obj.Br_ic
         else:
             data_ic = None
+    elif field in ('LFr'):
+        data = obj.LFr
+        if labTex:
+            label = r'$LF_r$'
+        else:
+            label = 'LFr'
+        data_ic = None
+    elif field in ('LFt'):
+        data = obj.LFtheta
+        if labTex:
+            label = r'$LF_{\theta}$'
+        else:
+            label = 'LFtheta'
+        data_ic = None
+    elif field in ('LFp'):
+        #print("hoi")
+        data = obj.LFphi
+        if labTex:
+            label = r'$LF_{\phi}$'
+        else:
+            label = 'Lfp'
+        data_ic = None 
     elif field in ('pressure', 'pre', 'Pre', 'Pressure', 'press', 'Press'):
         data = obj.pre
         if labTex:

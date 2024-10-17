@@ -32,12 +32,12 @@ else: # Default if the PATH is messed up
     backend = 'GTKAgg'
     labTex = False
     defaultCm = 'seismic'
-    defaultLevels = 65
+    defaultLevels = 65 
     buildSo = False
 
 #
 # Plots setup
-#
+#   
 #plt.switch_backend(backend)
 if int(mpl.__version__[0]) < 2:
     plt.rc('xtick.major', size=7, width=1)
