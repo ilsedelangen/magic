@@ -40,6 +40,7 @@ module fields_average_mod
        &                 djdt_ic, domega_ma_dt, domega_ic_dt, dphidt
    use storeCheckPoints
    use time_schemes, only: type_tscheme
+   use force_average
 
    implicit none
 
@@ -190,7 +191,9 @@ contains
       !----- Fields in grid space:
       real(cp) :: Br(nlat_padded,n_phi_max),Bt(nlat_padded,n_phi_max)
       real(cp) :: Bp(nlat_padded,n_phi_max),Vr(nlat_padded,n_phi_max)
-      real(cp) :: Vt(nlat_padded,n_phi_max),Vp(nlat_padded,n_phi_max) 
+      real(cp) :: Vt(nlat_padded,n_phi_max),Vp(nlat_padded,n_phi_max)   
+      real(cp) :: LFr(nlat_padded,n_phi_max)
+      real(cp) :: LFt(nlat_padded,n_phi_max),LFp(nlat_padded,n_phi_max)
       real(cp) :: Sr(nlat_padded,n_phi_max),Prer(nlat_padded,n_phi_max)
       real(cp) :: Xir(nlat_padded,n_phi_max),Phir(nlat_padded,n_phi_max)
 
@@ -402,8 +405,11 @@ contains
                   call scal_to_spat(phi_ave_Rloc(:,nR), Phir, l_R(nR))
                end if
 #ifdef WITH_MPI
-               call graphOut_mpi(nR, Vr, Vt, Vp, Br, Bt, Bp, Sr, Prer, Xir, Phir, &
-                    &            n_graph_handle)
+               LFr(:,:) = LFr_ave%f_ave(nR,:,:)
+               LFt(:,:) = LFt_ave%f_ave(nR,:,:)
+               LFp(:,:) = LFp_ave%f_ave(nR,:,:)
+               call graphOut_mpi(nR, Vr, Vt, Vp, Br, Bt, Bp, LFr, LFt, LFp, &
+                    &            Sr, Prer, Xir, Phir, n_graph_handle)
 #else
                call graphOut(nR, Vr, Vt, Vp, Br, Bt, Bp, Sr, Prer, Xir, Phir, &
                     &        n_graph_handle)

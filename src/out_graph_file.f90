@@ -334,7 +334,7 @@ contains
    end subroutine graphOut_header
 !-------------------------------------------------------------------------------
 #ifdef WITH_MPI
-   subroutine graphOut_mpi(n_r,vr,vt,vp,br,bt,bp,sr,prer,xir,phir,n_graph_handle)
+   subroutine graphOut_mpi(n_r,vr,vt,vp,br,bt,bp,LFr,LFt,LFp,sr,prer,xir,phir,n_graph_handle)
       !
       ! MPI version of the graphOut subroutine (use of MPI_IO)
       !
@@ -344,6 +344,7 @@ contains
       integer,  intent(in) :: n_r                      ! radial grid point no.
       real(cp), intent(in) :: vr(:,:),vt(:,:),vp(:,:)
       real(cp), intent(in) :: br(:,:),bt(:,:),bp(:,:)
+      real(cp), intent(in) :: LFr(:,:),LFt(:,:),LFp(:,:)
       real(cp), intent(in) :: sr(:,:),prer(:,:),xir(:,:),phir(:,:)
 
       !-- Local variables:
@@ -401,6 +402,42 @@ contains
          end do
       end do
       call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
+
+      if ( l_mag ) then
+
+         !-- Calculate and write radial LF
+         fac=or2(n_r)
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               dummy(n_theta,n_phi)=real(fac*LFr(n_theta_cal,n_phi),kind=outp)
+            end do
+         end do
+         call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
+
+         !-- Calculate and write latitudinal LF:
+         fac_r=or1(n_r)
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               fac=fac_r*O_sin_theta(n_theta_cal)
+               dummy(n_theta,n_phi)=real(fac*LFt(n_theta_cal,n_phi),kind=outp)
+            end do
+         end do
+         call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
+
+         !-- Calculate and write longitudinal LF:
+         fac_r=or1(n_r)
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               fac=fac_r*O_sin_theta(n_theta_cal)
+               dummy(n_theta,n_phi)=real(fac*LFp(n_theta_cal,n_phi),kind=outp)
+            end do
+         end do
+         call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
+
+      end if
 
       !-- Write entropy:
       if ( l_heat ) then
@@ -519,7 +556,7 @@ contains
 
       version = 14
       n_fields = 3
-      if ( l_mag ) n_fields = n_fields+3
+      if ( l_mag ) n_fields = n_fields+6
       if ( l_heat ) n_fields = n_fields+1
       if ( l_PressGraph ) n_fields = n_fields+1
       if ( l_chemical_conv ) n_fields = n_fields+1
