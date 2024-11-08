@@ -69,7 +69,6 @@ def selectField(obj, field, labTex=True, ic=False):
             label = 'LFtheta'
         data_ic = None
     elif field in ('LFp'):
-        #print("hoi")
         data = obj.LFphi
         if labTex:
             label = r'$LF_{\phi}$'
