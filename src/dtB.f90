@@ -8,45 +8,36 @@ module dtB_mod
    use parallel_mod
    use mem_alloc, only: bytes_allocated
    use truncation, only: n_r_maxMag, n_r_ic_maxMag, n_r_max, lm_max,   &
-       &                 n_cheb_max, n_r_ic_max, l_max, n_phi_max,     &
-       &                 n_theta_max, nlat_padded
-   use communications, only: gather_all_from_lo_to_rank0, gt_OC, gt_IC
+       &                 n_r_ic_max, l_max, n_phi_max, n_theta_max, nlat_padded
    use mpi_transp_mod, only: type_mpitransp
    use mpi_ptop_mod, only: type_mpiptop
    use physical_parameters, only: opm,O_sr
    use radial_functions, only: O_r_ic, lambda, or2, dLlambda, rscheme_oc, &
        &                       or1, orho1, or3
-   use radial_data,only: nRstart,nRstop
+   use radial_data,only: nRstart, nRstop
    use horizontal_data, only: dPhi, dLh, hdif_B, O_sin_theta_E2, &
        &                      dTheta1S, dTheta1A, O_sin_theta, cosn_theta_E2
-   use logic, only: l_cond_ic, l_DTrMagSpec, l_dtBmovie
-   use blocking, only: lo_map, st_map, lm2l, lm2m, llmMag, ulmMag, llm, ulm, &
+   use logic, only: l_cond_ic, l_DTrMagSpec
+   use blocking, only: lo_map, lm2l, lm2m, llmMag, ulmMag, llm, ulm, &
        &               lm2lmS, lm2lmA
    use radial_spectra ! rBrSpec, rBpSpec
    use sht, only: scal_to_SH, spat_to_sphertor
-   use constants, only: two, ci
+   use constants, only: zero, two, ci
    use radial_der, only: get_dr
 
    implicit none
 
    private
 
-   !-- Global arrays!!! They are only required for some movie outputs
-   !-- but we should definitely try to get rid of them
-   complex(cp), public, allocatable :: PstrLM(:,:), TstrLM(:,:), PadvLM(:,:)
-   complex(cp), public, allocatable :: TadvLM(:,:), TomeLM(:,:)
-   complex(cp), public, allocatable :: PdifLM(:,:), TdifLM(:,:), PadvLMIC(:,:)
-   complex(cp), public, allocatable :: PdifLMIC(:,:), TadvLMIC(:,:), TdifLMIC(:,:)
-
    !-- Container for R to LM MPI transposes
    complex(cp), allocatable, target :: dtB_LMloc_container(:,:,:)
    complex(cp), allocatable, target :: dtB_Rloc_container(:,:,:)
 
    !-- R-distributed arrays
-   complex(cp), pointer :: PstrLM_Rloc(:,:), PadvLM_Rloc(:,:)
-   complex(cp), pointer :: TomeRLM_Rloc(:,:), TomeLM_Rloc(:,:)
-   complex(cp), pointer :: TstrRLM_Rloc(:,:), TstrLM_Rloc(:,:)
-   complex(cp), pointer :: TadvRLM_Rloc(:,:), TadvLM_Rloc(:,:)
+   complex(cp), public, pointer :: PstrLM_Rloc(:,:), PadvLM_Rloc(:,:)
+   complex(cp), public, pointer :: TomeRLM_Rloc(:,:), TomeLM_Rloc(:,:)
+   complex(cp), public, pointer :: TstrRLM_Rloc(:,:), TstrLM_Rloc(:,:)
+   complex(cp), public, pointer :: TadvRLM_Rloc(:,:), TadvLM_Rloc(:,:)
 
    !-- LM-distributed arrays
    complex(cp), public, pointer :: PstrLM_LMloc(:,:), PadvLM_LMloc(:,:)
@@ -57,6 +48,12 @@ module dtB_mod
    complex(cp), public, allocatable :: PadvLMIC_LMloc(:,:), PdifLMIC_LMloc(:,:)
    complex(cp), public, allocatable :: TadvLMIC_LMloc(:,:), TdifLMIC_LMloc(:,:)
 
+   !-- Local private complex arrays for SH transforms
+   complex(cp), allocatable :: BtVrLM(:), BpVrLM(:), BrVtLM(:)
+   complex(cp), allocatable :: BtVpLM(:), BpVtLM(:), BrVpLM(:)
+   complex(cp), allocatable :: BpVtBtVpCotLM(:), BpVtBtVpSn2LM(:)
+   complex(cp), allocatable :: BtVZLM(:), BtVZsn2LM(:), BrVZLM(:)
+
    class(type_mpitransp), pointer :: r2lo_dtB
 
    public :: initialize_dtB_mod, get_dtBLMfinish, get_dtBLM, get_dH_dtBLM, &
@@ -64,37 +61,27 @@ module dtB_mod
 
 contains
 
-   subroutine initialize_dtB_mod
+   subroutine initialize_dtB_mod()
       !
-      ! Memory allocation
-      !
-
-      !
-      ! The remaining global arrays should be suppressed, they are only
-      ! needed because of some movie outputs
+      ! Memory allocation for diagnostics related to the induction equation
       !
 
-      if ( l_dtBmovie ) then
-         if ( rank == 0 ) then
-            allocate( PstrLM(lm_max,n_r_max), PadvLM(lm_max,n_r_max) )
-            allocate( TstrLM(lm_max,n_r_max), TadvLM(lm_max,n_r_max) )
-            allocate( TomeLM(lm_max,n_r_max), PdifLM(lm_max,n_r_max) )
-            allocate( TdifLM(lm_max,n_r_max) )
-            bytes_allocated = bytes_allocated+7*lm_max*n_r_max*SIZEOF_DEF_COMPLEX
-         else
-            allocate( PstrLM(1,1), PadvLM(1,1), PdifLM(1,1), TdifLM(1,1) )
-            allocate( TstrLM(1,1), TadvLM(1,1), TomeLM(1,1) )
-         end if
-
-         if ( rank == 0 ) then
-            allocate( PadvLMIC(lm_max,n_r_ic_max), PdifLMIC(lm_max,n_r_ic_max) )
-            allocate( TadvLMIC(lm_max,n_r_ic_max), TdifLMIC(lm_max,n_r_ic_max) )
-            bytes_allocated = bytes_allocated+4*lm_max*n_r_ic_max*SIZEOF_DEF_COMPLEX
-         else
-            allocate( PadvLMIC(1,1), PdifLMIC(1,1), TadvLMIC(1,1) )
-            allocate( TdifLMIC(1,1) )
-         end if
-      end if
+      allocate( BtVrLM(lm_max), BpVrLM(lm_max), BrVtLM(lm_max), BrVpLM(lm_max) )
+      allocate( BtVpLM(lm_max), BpVtLM(lm_max), BpVtBtVpCotLM(lm_max) )
+      allocate( BpVtBtVpSn2LM(lm_max), BrVZLM(lm_max), BtVZLM(lm_max) )
+      allocate( BtVZsn2LM(lm_max) )
+      bytes_allocated = bytes_allocated+ 11*lm_max*SIZEOF_DEF_COMPLEX
+      BtVrLM(:) = zero
+      BpVrLM(:) = zero
+      BrVtLM(:) = zero
+      BrVpLM(:) = zero
+      BtVpLM(:) = zero
+      BpVtLM(:) = zero
+      BrVZLM(:) = zero
+      BtVZLM(:) = zero
+      BpVtBtVpCotLM(:) = zero
+      BpVtBtVpSn2LM(:) = zero
+      BtVZsn2LM(:) = zero
 
       allocate( PdifLM_LMloc(llmMag:ulmMag,n_r_max) )
       allocate( TdifLM_LMloc(llmMag:ulmMag,n_r_max) )
@@ -142,11 +129,8 @@ contains
       ! Memory deallocation
       !
 
-      if ( l_dtBmovie ) then
-         deallocate( PstrLM, PadvLM, TstrLM, TadvLM, TomeLM )
-         deallocate( TdifLMIC, TadvLMIC, PdifLMIC, PadvLMIC, TdifLM, PdifLM )
-      end if
-
+      deallocate( BtVrLM, BpVrLM, BrVtLM, BrVpLM, BtVpLM, BpVtLM )
+      deallocate( BpVtBtVpCotLM, BpVtBtVpSn2LM, BrVZLM, BtVZLM, BtVZsn2LM )
       deallocate( PdifLM_LMloc, TdifLM_LMloc, PadvLMIC_LMloc, PdifLMIC_LMloc )
       deallocate( TadvLMIC_LMloc, TdifLMIC_LMloc )
       deallocate( dtB_Rloc_container, dtB_LMloc_container )
@@ -155,30 +139,7 @@ contains
 
    end subroutine finalize_dtB_mod
 !----------------------------------------------------------------------------
-   subroutine dtb_gather_lo_on_rank0
-      !
-      ! MPI gather on rank0 for dtBmovie outputs.
-      ! This routine should really be suppressed once the movie
-      ! outputs have been improved
-      !
-
-      call gather_all_from_lo_to_rank0(gt_OC,PstrLM_LMloc,PstrLM)
-      call gather_all_from_lo_to_rank0(gt_OC,TstrLM_LMloc,TstrLM)
-      call gather_all_from_lo_to_rank0(gt_OC,PadvLM_LMloc,PadvLM)
-      call gather_all_from_lo_to_rank0(gt_OC,TadvLM_LMloc,TadvLM)
-      call gather_all_from_lo_to_rank0(gt_OC,TomeLM_LMloc,TomeLM)
-      call gather_all_from_lo_to_rank0(gt_OC,PdifLM_LMloc,PdifLM)
-      call gather_all_from_lo_to_rank0(gt_OC,TdifLM_LMloc,TdifLM)
-      call gather_all_from_lo_to_rank0(gt_IC,PadvLMIC_LMloc,PadvLMIC)
-      call gather_all_from_lo_to_rank0(gt_IC,TadvLMIC_LMloc,TadvLMIC)
-      call gather_all_from_lo_to_rank0(gt_IC,PdifLMIC_LMloc,PdifLMIC)
-      call gather_all_from_lo_to_rank0(gt_IC,TdifLMIC_LMloc,TdifLMIC)
-
-   end subroutine dtb_gather_lo_on_rank0
-!----------------------------------------------------------------------------
-   subroutine  get_dtBLM(nR,vr,vt,vp,br,bt,bp,BtVrLM,BpVrLM,BrVtLM,BrVpLM, &
-               &         BtVpLM,BpVtLM,BrVZLM,BtVZLM,BpVtBtVpCotLM,        &
-               &         BpVtBtVpSn2LM,BtVZsn2LM)
+   subroutine  get_dtBLM(nR,vr,vt,vp,br,bt,bp)
       !
       !  This subroutine calculates non-linear products in grid-space for radial
       !  level nR.
@@ -188,15 +149,6 @@ contains
       integer,  intent(in) :: nR
       real(cp), intent(in) :: vr(:,:),vt(:,:),vp(:,:)
       real(cp), intent(in) :: br(:,:),bt(:,:),bp(:,:)
-
-      !-- Output variables:
-      complex(cp), intent(out) :: BtVrLM(:),BpVrLM(:)
-      complex(cp), intent(out) :: BrVtLM(:),BrVpLM(:)
-      complex(cp), intent(out) :: BtVpLM(:),BpVtLM(:)
-      complex(cp), intent(out) :: BrVZLM(:),BtVZLM(:)
-      complex(cp), intent(out) :: BpVtBtVpCotLM(:)
-      complex(cp), intent(out) :: BpVtBtVpSn2LM(:)
-      complex(cp), intent(out) :: BtVZsn2LM(:)
 
       !-- Local variables:
       integer :: n_theta,n_phi
@@ -270,8 +222,7 @@ contains
 
    end subroutine get_dtBLM
 !-----------------------------------------------------------------------
-   subroutine get_dH_dtBLM(nR,BtVrLM,BpVrLM,BrVtLM,BrVpLM,BtVpLM,BpVtLM, &
-              &            BrVZLM,BtVZLM,BpVtBtVpCotLM,BpVtBtVpSn2LM)
+   subroutine get_dH_dtBLM(nR)
       !
       !  Purpose of this routine is to calculate theta and phi
       !  derivative related terms of the magnetic production and
@@ -280,12 +231,6 @@ contains
 
       !-- Input variables:
       integer,     intent(in) :: nR
-      complex(cp), intent(in) :: BtVrLM(*),BpVrLM(*)
-      complex(cp), intent(in) :: BrVtLM(*),BrVpLM(*)
-      complex(cp), intent(in) :: BtVpLM(*),BpVtLM(*)
-      complex(cp), intent(in) :: BpVtBtVpCotLM(*)
-      complex(cp), intent(in) :: BpVtBtVpSn2LM(*)
-      complex(cp), intent(in) :: BrVZLM(*),BtVZLM(*)
 
       !-- Local variables:
       integer :: l,m,lm,lmS,lmA
@@ -392,7 +337,7 @@ contains
    end subroutine get_dH_dtBLM
 !------------------------------------------------------------------------------
    subroutine get_dtBLMfinish(time,n_time_step,omega_ic,b,ddb,aj,dj,ddj,b_ic, &
-              &               db_ic,ddb_ic,aj_ic,dj_ic,ddj_ic,l_frame)
+              &               db_ic,ddb_ic,aj_ic,dj_ic,ddj_ic)
 
       !-- Input of variables:
       real(cp),    intent(in) :: time
@@ -409,7 +354,6 @@ contains
       complex(cp), intent(in) :: aj_ic(llmMag:ulmMag,n_r_ic_maxMag)
       complex(cp), intent(in) :: dj_ic(llmMag:ulmMag,n_r_ic_maxMag)
       complex(cp), intent(in) :: ddj_ic(llmMag:ulmMag,n_r_ic_maxMag)
-      logical,     intent(in) :: l_frame
 
       !-- Local variables:
       integer :: nR, start_lm, stop_lm, l, m, lm
@@ -502,11 +446,6 @@ contains
          end do
          call rBpSpec(time,work_LMloc,TadvLMIC_LMloc,'rBpDynSpec',.false.,lo_map)
 
-      end if
-
-      if ( l_dtBmovie .and. l_frame ) then
-         !-- If movie is required, let's gather everything on rank 0
-         call dtb_gather_lo_on_rank0()
       end if
 
    end subroutine get_dtBLMfinish

@@ -1,5 +1,5 @@
 # COMPILER: intel, gnu, portland
-COMPILER=intel
+COMPILER=gnu
 # precision of the calculations: sngl/dble
 PRECISION=dble
 # precision for binary outputs: sngl/dble
@@ -42,7 +42,7 @@ ifndef MKLROOT
 endif
 ifeq ($(USE_LAPACKLIB),MKL)
 ifndef MKLROOT
-	USE_LAPACKLIB=JW
+	USE_LAPACKLIB=LAPACK
 endif
 endif
 
@@ -76,12 +76,12 @@ ifeq ($(COMPILER),intel)
 	else
 		COMP_MPFC = mpiifort
 		COMP_MPCC = mpiicc
-	endif	
+	endif
 
 	FFLAG_MKL_LIBS = -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 \
                          -lmkl_lapack95_lp64\
 			 -lmkl_sequential -lmkl_core -lpthread -lm \
-			 -Wl,-rpath,$(MKLROOT)/lib/intel64 
+			 -Wl,-rpath,$(MKLROOT)/lib/intel64
 
 endif
 ifeq ($(COMPILER),gnu)
@@ -94,7 +94,7 @@ ifeq ($(COMPILER),gnu)
 	FFLAG_PREPROCESSOR = -cpp
 	FFLAG_WARN_ALL = -Wall -Wno-maybe-uninitialized
 	FFLAG_CHECK_ALL = -fcheck=all
-	FFLAG_FPE = -ffpe-trap=invalid,zero,overflow 
+	FFLAG_FPE = -ffpe-trap=invalid,zero,overflow
 	COMP_FC = gfortran
 	COMP_CC = gcc
 	COMP_MPFC = mpif90
@@ -176,15 +176,19 @@ ifeq ($(USE_FFTLIB),MKL)
 	INCPATHS += -I$(MKLROOT)/include
 	INCPATHS += -I$(MKLROOT)/include/fftw
 	LIBS +=  $(FFLAG_MKL_LIBS)
+else ifeq ($(USE_FFTLIB),FFTW)
+ifeq ($(USE_OMP),yes)
+	LIBS += -lfftw3_omp -lfftw3
+else
+	LIBS += -lfftw3
+endif
 endif
 
 ifeq ($(USE_LAPACKLIB),MKL)
 	INCPATHS += -I$(MKLROOT)/include
 	LIBS += $(FFLAG_MKL_LIBS)
-endif
-
-ifeq ($(USE_LAPACKLIB),LAPACK)
-	LIBS += -llapack
+else ifeq ($(USE_LAPACKLIB),LAPACK)
+	LIBS += -llapack -lblas
 endif
 
 ifeq ($(USE_SHTNS),yes)
@@ -212,7 +216,7 @@ ifeq ($(PRODRUN),yes)
 	DEBUG=no
 	OPT += -O3 $(FFLAG_ARCH_OPT)
 else
-	OPT += -O 
+	OPT += -O
 endif
 ifeq ($(USE_OMP),yes)
 	FFLAGS += $(FFLAG_OPENMP)
@@ -238,7 +242,7 @@ endif
 
 INCPATHS += -I.
 
-FFLAGS += $(FFLAG_CONVERT) 
+FFLAGS += $(FFLAG_CONVERT)
 FFLAGS  += $(FFLAG_PREPROCESSOR) $(OPT)
 LDFLAGS =
 
@@ -296,7 +300,7 @@ endif
 OBJS   := $(addsuffix .o, $(basename $(RED_SOURCES)))
 OBJS += truncation.o
 
-.SUFFIXES: 
+.SUFFIXES:
 
 #ifeq ($(COMPILER),gnu)
 #ifeq ($(USE_MPI),yes)
@@ -343,8 +347,6 @@ mem_alloc.o           : parallel.o precision_mod.o output_data.o
 out_TO.o              : truncation.o horizontal.o num_param.o logic.o\
                         phys_param.o radial.o parallel.o integration.o\
                         constants.o output_data.o TO.o useful.o mem_alloc.o
-dtB_arrays.o          : truncation.o precision_mod.o constants.o\
-                        mem_alloc.o
 courant.o             : truncation.o blocking.o num_param.o\
                         phys_param.o radial.o horizontal.o logic.o\
                         useful.o radial_data.o parallel.o
@@ -360,7 +362,7 @@ fields_average.o      : truncation.o output_data.o blocking.o time_schemes.o\
                         mem_alloc.o
 get_nl.o              : truncation.o horizontal.o logic.o time_schemes.o\
                         phys_param.o radial.o blocking.o mem_alloc.o
-out_movie_file.o      : truncation.o output_data.o blocking.o\
+out_movie_file.o      : truncation.o output_data.o blocking.o outGeos.o\
                         radial.o horizontal.o movie.o fields.o\
                         num_param.o $(FFT_OBJS) logic.o outMisc.o\
                         out_dtB_frame.o parallel.o communications.o
@@ -371,7 +373,8 @@ storeCheckPoints.o    : truncation.o phys_param.o num_param.o logic.o\
 updateS.o             : truncation.o blocking.o horizontal.o time_array.o\
                         phys_param.o radial.o logic.o output_data.o\
                         init_fields.o constants.o mem_alloc.o time_schemes.o\
-                        matrices.o $(DCT_OBJS) radial_derivatives.o matrices.o
+                        matrices.o $(DCT_OBJS) radial_derivatives.o matrices.o\
+                        parallel_solver.o
 updateXI.o            : truncation.o blocking.o horizontal.o time_array.o\
                         phys_param.o radial.o logic.o output_data.o\
                         init_fields.o constants.o mem_alloc.o time_schemes.o\
@@ -410,17 +413,16 @@ rIter.o               : precision_mod.o parallel.o truncation.o logic.o radial_d
                         radial.o constants.o get_nl.o get_td.o TO.o dtB.o\
                         out_graph_file.o nonlinear_bcs.o out_movie_file.o\
                         courant.o outRot.o fields.o time_schemes.o phys_param.o\
-                        ${SHT_OBJS} outGeos.o
+                        ${SHT_OBJS} outGeos.o probes.o
 radialLoop.o          : truncation.o time_schemes.o precision_mod.o mem_alloc.o\
                         radial_data.o rIteration.o rIter.o
 LMLoop.o              : truncation.o blocking.o parallel.o time_array.o\
-                        logic.o radial_data.o updateWPS.o\
+                        logic.o radial_data.o updateWPS.o updatePHI.o\
                         output_data.o fields.o dt_fieldsLast.o\
                         updateS.o updateB.o mem_alloc.o updateXI.o\
-                        updateZ.o updateWP.o  debugging.o
+                        updateZ.o updateWP.o
 mpi_transpose.o       : precision_mod.o truncation.o radial_data.o\
                         mem_alloc.o parallel.o blocking.o
-debugging.o           : precision_mod.o precision_mod.o
 timing.o              : parallel.o precision_mod.o
 radial_derivatives.o  : $(DCT_OBJS) constants.o precision_mod.o chebyshev.o
 output.o              : truncation.o blocking.o phys_param.o\
@@ -459,7 +461,7 @@ updateWPS.o           : truncation.o blocking.o num_param.o time_array.o\
 updatePHI.o           : truncation.o blocking.o num_param.o time_array.o\
                         phys_param.o radial.o horizontal.o logic.o\
                         $(DCT_OBJS) radial_derivatives.o init_fields.o\
-                        mem_alloc.o time_schemes.o
+                        mem_alloc.o time_schemes.o parallel_solver.o
 get_td.o              : truncation.o blocking.o horizontal.o\
                         phys_param.o num_param.o radial.o logic.o\
                         RMS.o RMS_helpers.o fields.o mem_alloc.o
@@ -509,14 +511,14 @@ updateB.o             : truncation.o blocking.o horizontal.o fields.o\
 outGeos.o             : truncation.o horizontal.o radial.o constants.o\
                         output_data.o logic.o radial_data.o parallel.o\
                         communications.o integration.o mem_alloc.o logic.o\
-                        movie.o
+                        movie.o $(SHT_OBJS)
 preCalculations.o     : truncation.o phys_param.o num_param.o constants.o\
                         radial.o horizontal.o init_fields.o time_schemes.o\
                         blocking.o logic.o output_data.o\
                         useful.o integration.o parallel.o special.o
 RMS_helpers.o         : truncation.o blocking.o radial.o constants.o\
                         horizontal.o  useful.o integration.o\
-                        LMmapping.o 
+                        LMmapping.o
 kinetic_energy.o      : truncation.o blocking.o num_param.o radial.o\
                         horizontal.o output_data.o logic.o constants.o\
                         phys_param.o useful.o integration.o\
@@ -534,7 +536,7 @@ radial.o              : truncation.o radial_data.o $(LAPACK_OBJS)\
                         chebyshev_polynoms.o radial_derivatives.o\
 			cosine_transform_even.o mem_alloc.o useful.o radial_scheme.o\
                         chebyshev.o finite_differences.o
-output_data.o         : precision_mod.o mem_alloc.o
+output_data.o         : precision_mod.o mem_alloc.o constants.o
 horizontal.o          : truncation.o phys_param.o num_param.o precision_mod.o\
                         radial.o logic.o blocking.o plms.o $(FFT_OBJS)\
                         mem_alloc.o
@@ -542,7 +544,7 @@ RMS.o	              : truncation.o blocking.o mem_alloc.o
 init_fields.o         : truncation.o blocking.o radial.o horizontal.o\
                         constants.o logic.o $(FFT_OBJS) $(SHT_OBJS)\
                         useful.o phys_param.o mpi_transpose.o\
-                        $(DCT_OBJS) mem_alloc.o parallel.o 
+                        $(DCT_OBJS) mem_alloc.o parallel.o
 mean_sd.o             : precision_mod.o mem_alloc.o matrices.o communications.o
 movie.o               : truncation.o parallel.o radial_data.o\
                         output_data.o logic.o radial.o mem_alloc.o\

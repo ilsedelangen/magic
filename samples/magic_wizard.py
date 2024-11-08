@@ -4,7 +4,6 @@ import os
 import shutil
 import sys
 import subprocess as sp
-import numpy as np
 import unittest
 import testOutputs.unitTest
 import testRadialOutputs.unitTest
@@ -30,6 +29,7 @@ import couetteAxi.unitTest
 import testCoeffOutputs.unitTest
 import testRMSOutputs.unitTest
 import testGraphMovieOutputs.unitTest
+import testdtBMovieOutputs.unitTest
 import testTOGeosOutputs.unitTest
 
 __version__ = '1.0'
@@ -41,24 +41,24 @@ def getParser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', action='version',
-                        version='%(prog)s '+__version__, 
+                        version='%(prog)s '+__version__,
                         help="Show program's version number and exit.")
     parser.add_argument('--level', action='store', dest='test_level', type=int,
                         default=-1, help='Test level, use -2 for more info')
-    parser.add_argument('--use-debug-flags', action='store_true', 
-                        dest='use_debug_flags', 
+    parser.add_argument('--use-debug-flags', action='store_true',
+                        dest='use_debug_flags',
                         default=False, help='Use compilation debug flags')
-    parser.add_argument('--use-mpi', action='store_true', dest='use_mpi', 
+    parser.add_argument('--use-mpi', action='store_true', dest='use_mpi',
                         default=False, help='Use MPI')
-    parser.add_argument('--use-openmp', action='store_true', dest='use_openmp', 
+    parser.add_argument('--use-openmp', action='store_true', dest='use_openmp',
                         default=False, help='Use the hybrid version')
-    parser.add_argument('--use-mkl', action='store_true', dest='use_mkl', 
-                        default=False, 
+    parser.add_argument('--use-mkl', action='store_true', dest='use_mkl',
+                        default=False,
                         help='Use the MKL for FFTs and Lapack calls')
-    parser.add_argument('--use-shtns', action='store_true', dest='use_shtns', 
+    parser.add_argument('--use-shtns', action='store_true', dest='use_shtns',
                         default=False, help='Use SHTns for Legendre transforms')
-    parser.add_argument('--use-precond', action='store', dest='use_precond', 
-                        type=bool, default=True, 
+    parser.add_argument('--use-precond', action='store', dest='use_precond',
+                        type=bool, default=True,
                         help='Use matrix preconditioning')
     parser.add_argument('--nranks', action='store', dest='nranks', type=int,
                         default=4, help='Specify the number of MPI ranks')
@@ -107,9 +107,9 @@ def cmake(args, startdir, execDir):
     os.chdir(execDir)
 
     if args.use_debug_flags:
-         build_type='-DCMAKE_BUILD_TYPE=Debug'
+        build_type = '-DCMAKE_BUILD_TYPE=Debug'
     else:
-         build_type='-DCMAKE_BUILD_TYPE=Release'
+        build_type = '-DCMAKE_BUILD_TYPE=Release'
 
     if args.use_precond:
         precond_opt = '-DUSE_PRECOND=yes'
@@ -169,7 +169,7 @@ def get_env(args):
         c_comp = os.environ['CC']
     else:
         c_comp = 'CC is not defined. Default C compiler will be used!'
-        
+
     print('  FC        : {}'.format(fortran_comp))
     print('  CC        : {}'.format(c_comp))
     print('  MPI       : {}'.format(args.use_mpi))
@@ -190,7 +190,7 @@ def get_exec_cmd(args, execDir):
     """
     magicExec = '{}/magic.exe'.format(execDir)
 
-    if args.use_mpi: # With MPI
+    if args.use_mpi:  # With MPI
         if args.use_openmp:
             os.environ['OMP_NUM_THREADS'] = str(args.nthreads)
             os.environ['KMP_STACKSIZE'] = '1g'
@@ -201,7 +201,7 @@ def get_exec_cmd(args, execDir):
             os.environ['I_MPI_PIN_PROCESSOR_LIST'] = 'allcores'
 
         execCmd = '{} -n {:d} {}'.format(args.mpicmd, args.nranks, magicExec)
-    else: # Without MPI
+    else:  # Without MPI
         execCmd = '{}'.format(magicExec)
 
     return execCmd
@@ -358,6 +358,11 @@ def getSuite(startdir, cmd, precision, args):
                                         'outputFileDiff',
                                         '{}/testTOGeosOutputs'.format(startdir),
                                         execCmd=cmd))
+        # Check dtBMovie outputs
+        suite.addTest(testdtBMovieOutputs.unitTest.TestdtBMovieOutputs(
+                                        'outputFileDiff',
+                                        '{}/testdtBMovieOutputs'.format(startdir),
+                                        execCmd=cmd))
 
     return suite
 
@@ -406,11 +411,11 @@ def printLevelInfo():
         print("                    Test TO and Geos outputs                                       ")
 
 
-
 if __name__ == '__main__':
-    precision = 1e-8 # relative tolerance between expected and actual result
+
+    precision = 1e-8  # relative tolerance between expected and actual result
     startdir = os.getcwd()
-    execDir = '{}/tmp'.format(startdir) # where MagIC will be built
+    execDir = '{}/tmp'.format(startdir)  # where MagIC will be built
 
     parser = getParser()
     args = parser.parse_args()

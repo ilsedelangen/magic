@@ -59,11 +59,11 @@ contains
 
    subroutine initialize(this, n_r_max, n_cheb_max, n_in)
       !
-      ! Definition of FFTW plans for type I DCTs. 
+      ! Definition of FFTW plans for type I DCTs.
       !
 
       class(costf_odd_t) :: this
-      
+
       !-- Input variables
       integer, intent(in) :: n_cheb_max ! Max number of Chebyshev polynomials
       integer, intent(in) :: n_in   ! Not used here, only for compatibility
@@ -73,13 +73,14 @@ contains
 #ifdef WITHOMP
       integer :: ier
 #endif
-      integer :: inembed(1), istride, idist, plan_size(1)
-      integer :: onembed(1), ostride, odist, isize, howmany
       integer(C_INT) :: plan_type(1)
+      integer :: plan_size(1)
 #if (DCT_VERSION==dft_loop)
       integer :: k
       complex(cp) :: array_cplx_1d(2*n_r_max-2), array_cplx_out_1d(2*n_r_max-2)
 #elif (DCT_VERSION==dct_many)
+      integer :: inembed(1), istride, idist
+      integer :: onembed(1), ostride, odist, isize, howmany
       real(cp) :: array_in(2*(ulm-llm+1),n_r_max), array_out(2*(ulm-llm+1),n_r_max)
 #endif
       real(cp) :: array_in_1d(n_r_max), array_out_1d(n_r_max)
@@ -129,7 +130,7 @@ contains
       this%der2(:)=this%der(:)*this%der(:)
       this%der(n_r_max)=0
 #endif
-      
+
       plan_size(1) = n_r_max
       this%plan_1d = fftw_plan_r2r(1, plan_size, array_in_1d, array_out_1d, &
                      &             plan_type, fftw_plan_flag)
