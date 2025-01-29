@@ -412,15 +412,14 @@ contains
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
                dummy(n_theta,n_phi)=real(fac*LFr(n_theta_cal,n_phi),kind=outp)
-               !sum=sum+dummy(n_theta,n_phi)
+               sum=sum+dummy(n_theta,n_phi)
             end do
          end do
-         !mean = sum/(n_theta_max*n_phi_max)
-         !dummy = dummy-mean
+         mean = sum/(n_theta_max*n_phi_max)
+         dummy = dummy-mean
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
 
          !-- Calculate and write latitudinal LF:
-         !fac_r=or1(n_r)
          fac_r=r(n_r)
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
@@ -432,7 +431,6 @@ contains
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
 
          !-- Calculate and write longitudinal LF:
-         !fac_r=or1(n_r)
          fac_r=r(n_r)
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
@@ -484,11 +482,11 @@ contains
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
                dummy(n_theta,n_phi)=real(prer(n_theta_cal,n_phi),kind=outp)
-               !sum=sum+dummy(n_theta,n_phi)
+               sum=sum+dummy(n_theta,n_phi)
             end do
          end do
-         !mean = sum/(n_theta_max*n_phi_max)
-         !dummy = dummy-mean
+         mean = sum/(n_theta_max*n_phi_max)
+         dummy = dummy-mean
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
       end if
 
