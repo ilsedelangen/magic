@@ -586,9 +586,10 @@ def radialContour(data, rad=0.85, label=None, proj='hammer', lon_0=0., vmax=None
     if fig is None and ax is None:
         if proj == 'moll' or proj == 'hammer':
             if title and label is not None:
-                if cbar:
+                if cbar: 
                     fig = plt.figure(figsize=(9.1, 4.5))
-                    ax = fig.add_axes([0.01, 0.01, 0.87, 0.87])
+                    # ax = fig.add_axes([0.01, 0.01, 0.87, 0.87])
+                    ax = fig.add_axes([0.01, 0.01, 0.80, 0.87])
                 else:
                     fig = plt.figure(figsize=(8, 4.5))
                     ax = fig.add_axes([0.01, 0.01, 0.98, 0.87])
@@ -723,10 +724,12 @@ def radialContour(data, rad=0.85, label=None, proj='hammer', lon_0=0., vmax=None
     l, b, w, h = pos.bounds
     if cbar:
         if title and label is not None:
-            cax = fig.add_axes([0.9, 0.46-0.7*h/2., 0.03, 0.7*h])
+            # cax = fig.add_axes([0.9, 0.46-0.7*h/2., 0.03, 0.7*h])
+            cax = fig.add_axes([0.82, 0.46-0.7*h/2., 0.03, 0.7*h])
         else:
             cax = fig.add_axes([0.9, 0.51-0.7*h/2., 0.03, 0.7*h])
         mir = fig.colorbar(im, cax=cax)
+        mir.ax.tick_params(labelsize=15)
 
     # To avoid white lines on pdfs
     if not pcolor:

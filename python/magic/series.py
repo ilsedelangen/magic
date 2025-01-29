@@ -155,9 +155,9 @@ class MagicTs(MagicSetup):
             ax.plot(self.time, self.ekin_tor_axi, ls='--', c='C1',
                     label='ekin tor axi')
             ax.plot(self.time, self.ekin_tot, ls='-', c='0.25', label='ekin tot')
-            ax.legend(loc='best', frameon=False)
-            ax.set_xlabel('Time')
-            ax.set_ylabel('Ekin')
+            ax.legend(loc='best', frameon=False, fontsize=15)
+            ax.set_xlabel('Time', fontsize=20)
+            ax.set_ylabel('Ekin', fontsize=20)
             ax.set_yscale('log')
             ax.set_xlim(self.time.min(), self.time.max())
             fig.tight_layout()

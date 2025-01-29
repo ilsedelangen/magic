@@ -1535,8 +1535,9 @@ class Surf:
 
             if title:
                 if cbar:
-                    fig = plt.figure(figsize=(5, 7.5))
-                    ax = fig.add_axes([0.01, 0.01, 0.69, 0.91])
+                    fig = plt.figure(figsize=(6, 7.5))
+                    # ax = fig.add_axes([0.01, 0.01, 0.69, 0.91])
+                    ax = fig.add_axes([0.01, 0.01, 0.60, 0.91])
                 else:
                     fig = plt.figure(figsize=(3.5, 7.5))
                     ax = fig.add_axes([0.01, 0.01, 0.98, 0.91])
@@ -1594,10 +1595,12 @@ class Surf:
             l, b, w, h = pos.bounds
             if cbar:
                 if title:
-                    cax = fig.add_axes([0.82, 0.46-0.7*h/2., 0.04, 0.7*h])
+                    # cax = fig.add_axes([0.82, 0.46-0.7*h/2., 0.04, 0.7*h])
+                    cax = fig.add_axes([0.65, 0.46-0.7*h/2., 0.04, 0.7*h])
                 else:
                     cax = fig.add_axes([0.82, 0.5-0.7*h/2., 0.04, 0.7*h])
                 mir = fig.colorbar(im, cax=cax)
+                mir.ax.tick_params(labelsize=20)
 
             # To avoid white lines on pdfs
             for c in im.collections:
