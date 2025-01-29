@@ -349,7 +349,7 @@ contains
 
       !-- Local variables:
       integer :: n_phi, n_theta, n_theta_cal, n_graph_loc
-      real(cp) :: fac, fac_r
+      real(cp) :: fac, fac_r, mean, sum
       real(outp) :: dummy(n_theta_max,n_phi_max)
 
       if ( present(n_graph_handle) ) then
@@ -407,16 +407,21 @@ contains
 
          !-- Calculate and write radial LF
          fac=or2(n_r)
+         sum=0.0_cp
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
                dummy(n_theta,n_phi)=real(fac*LFr(n_theta_cal,n_phi),kind=outp)
+               !sum=sum+dummy(n_theta,n_phi)
             end do
          end do
+         !mean = sum/(n_theta_max*n_phi_max)
+         !dummy = dummy-mean
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
 
          !-- Calculate and write latitudinal LF:
-         fac_r=or1(n_r)
+         !fac_r=or1(n_r)
+         fac_r=r(n_r)
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
@@ -427,7 +432,8 @@ contains
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
 
          !-- Calculate and write longitudinal LF:
-         fac_r=or1(n_r)
+         !fac_r=or1(n_r)
+         fac_r=r(n_r)
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
@@ -478,8 +484,11 @@ contains
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
                dummy(n_theta,n_phi)=real(prer(n_theta_cal,n_phi),kind=outp)
+               !sum=sum+dummy(n_theta,n_phi)
             end do
          end do
+         !mean = sum/(n_theta_max*n_phi_max)
+         !dummy = dummy-mean
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
       end if
 
