@@ -18,7 +18,7 @@ module updateB_mod
        &                       or1, cheb_ic, dcheb_ic, rscheme_oc, dr_top_ic
    use radial_data, only: n_r_cmb, n_r_icb, nRstartMag, nRstopMag
    use physical_parameters, only: n_r_LCR, opm, O_sr, kbotb, imagcon, tmagcon, &
-       &                         sigma_ratio, conductance_ma, ktopb, ktopv
+       &                         sigma_ratio, conductance_ma, ktopb, ktopv, ek
    use init_fields, only: bpeaktop, bpeakbot
    use num_param, only: solve_counter, dct_counter
    use blocking, only: st_map, lo_map, st_sub_map, lo_sub_map, llmMag, ulmMag
@@ -70,7 +70,12 @@ contains
    subroutine field_coef(t, freq, amp, phi0_deg, G01, G11, H11)
       !
       ! Calculate the G01, G11, and H11 magnetic field coefficients
-      ! which describes an imposed external equatorial dipole. 
+      ! which describe the Jovian dipole field as experienced by Europa.
+      ! Normalized to the constant G01 coefficient. 
+      ! For derivation see: I. de Langen, J. Wicht. Driving Zonal Flows 
+      ! in Europa's Ocean by Magnetic Induction. Submitted to Earth and P
+      ! Planetary Science Letters, 2026.
+
 
       implicit none
 
@@ -80,28 +85,22 @@ contains
       real(cp) :: phi0_deg
       real(cp) :: phi0
       real :: omega
+      real :: mag_scale
       real :: G01
       real :: G11
       real :: H11 
 
       phi0 = phi0_deg*pi/180
-
       omega = 2*pi*freq
 
-      !G01 = real(-amp*(1 + cmplx(0.0249*cos(phi0) + 0.0185*sin(phi0),      &
-      !&  0.0249*sin(phi0) + 0.0185*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t)))
-      !G11 = real(-amp*(0.00473 + cmplx(0.346*cos(phi0) - 0.101*sin(phi0),  &
-      !&  0.346*sin(phi0) - 0.101*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t)))
-      !H11 = real(-amp*cmplx(0.173*sin(phi0) + 0.0512*cos(phi0),            &
-      !&  0.173*cos(phi0) + 0.0512*sin(phi0))*exp(cmplx(0.0,1.0)*omega*t))
+      mag_scale = 0.146 ! Square root of Els for Europa
 
-      G01 = real(-amp*cmplx(0.0249*cos(phi0) + 0.0185*sin(phi0),      &
-      &  0.0249*sin(phi0) + 0.0185*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t))
-      G11 = real(-amp*cmplx(0.346*cos(phi0) - 0.101*sin(phi0),  &
-      &  0.346*sin(phi0) - 0.101*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t))
-      H11 = real(-amp*cmplx(0.173*sin(phi0) + 0.0512*cos(phi0),            &
+      G01 = (1/mag_scale)*real(-amp*(1 + cmplx(0.0249*cos(phi0) + 0.0185*sin(phi0),      &
+      &  0.0249*sin(phi0) + 0.0185*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t)))
+      G11 = (1/mag_scale)*real(-amp*(0.00473 + cmplx(0.346*cos(phi0) - 0.101*sin(phi0),  &
+      &  0.346*sin(phi0) - 0.101*cos(phi0))*exp(cmplx(0.0,1.0)*omega*t)))
+      H11 = (1/mag_scale)*real(-amp*cmplx(0.173*sin(phi0) + 0.0512*cos(phi0),            &
       &  0.173*cos(phi0) + 0.0512*sin(phi0))*exp(cmplx(0.0,1.0)*omega*t))
-
 
    end subroutine field_coef
 
@@ -543,7 +542,7 @@ contains
                   end if ! m1 = 0
 
                   if ( n_imp == 8 ) then
-                     ! Impose a time-dependent external field. Only dipole components.  
+                     ! Impose a time-dependent external field.  
                      yl0_norm = sqrt(4*pi/(2*l1+1)) ! Normalization factor following from Schmidt-normalized Legendre polynomials
                      prefac = real(2*l1+1,kind=cp)/real((l1+1),kind=cp)
                      call field_coef(time,freq_imp,amp_imp,phi0,G01,G11,H11)  
