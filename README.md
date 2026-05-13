@@ -6,6 +6,14 @@
 [![DOI](https://zenodo.org/badge/22163/magic-sph/magic.svg)](https://zenodo.org/badge/latestdoi/22163/magic-sph/magic)
 [![GPLv3](https://www.gnu.org/graphics/gplv3-88x31.png)](https://www.gnu.org/licenses/gpl.html)
 
+# About this fork
+This is a fork of MagIC used for my PhD thesis at the Georg-August-Universität Göttingen on magnetic induction and Lorentz-force-driven flows in Europa's subsurface ocean.
+
+My changes:
+- Implemented a time-dependent magnetic boundary condition in updateB.f90 to simulate the oscillating Jovian field Europa experiences along its orbit
+- Wrote calc_ave.f90 and force_average.f90 to compute time-averaged Lorentz forces
+- Extended the plotting routines to visualise the Lorentz force output
+
 # Foreword
 
 * **MagIC** is a numerical code that can simulate fluid dynamics in spherical geometry. MagIC solves for the Navier-Stokes equation including Coriolis force, optionally coupled with an induction equation for Magneto-Hydro Dynamics (MHD), a temperature (or entropy) equation and an equation for chemical composition under both the anelastic and the Boussinesq approximations.  
