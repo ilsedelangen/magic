@@ -31,7 +31,7 @@ module updateWP_mod
    use radial_der, only: get_dddr, get_ddr, get_dr, get_dr_Rloc, get_ddddr_ghost, &
        &                 bulk_to_ghost, exch_ghosts
    use integration, only: rInt_R
-   use fields, only: work_LMloc, s_Rloc, xi_Rloc !TODO> pass directly
+   use fields, only: work_LMloc, s_Rloc, xi_Rloc, dif_LMloc
    use constants, only: zero, one, two, three, four, third, half
    use useful, only: abortRun, cc2real
    use time_schemes, only: type_tscheme
@@ -1313,6 +1313,7 @@ contains
                   else
                      dwdt%impl(lm,n_r,istage)=Pre+Dif+Buo
                   end if
+                  dif_LMloc(lm,n_r) = Dif 
                   dpdt%impl(lm,n_r,istage)=               dL*or2(n_r)*p(lm,n_r) &
                   &            + hdif_V(l1)*visc(n_r)*dL*or2(n_r)               &
                   &                                     * ( -work_LMloc(lm,n_r) &

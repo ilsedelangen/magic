@@ -18,7 +18,7 @@ module nonlinear_lm_mod
    use horizontal_data, only: dLh, dPhi, dTheta2A, dTheta3A, dTheta4A, dTheta2S, &
        &                      dTheta3S, dTheta4S
    use constants, only: zero, two
-   use fields, only: w_Rloc, dw_Rloc, ddw_Rloc, z_Rloc, dz_Rloc
+   use fields, only: w_Rloc, dw_Rloc, ddw_Rloc, z_Rloc, dz_Rloc, cor_Rloc
 
    implicit none
 
@@ -160,7 +160,9 @@ contains
             dwdt(lm)=zero
          end if
          if ( l_corr .and. (.not. l_single_matrix ) ) then
-            dwdt(lm)=dwdt(lm)+two*CorFac*or1(nR)*dTheta2A(lm)*z_Rloc(lmA,nR)
+            CorPol_loc = two*CorFac*or1(nR)*dTheta2A(lm)*z_Rloc(lmA,nR)
+            dwdt(lm)=dwdt(lm)+CorPol_loc
+            cor_Rloc(lm,nR) = CorPol_loc
          end if
 
          !$omp parallel default(shared) private(lm,l,lmS,lmA,CorPol_loc)
@@ -198,6 +200,7 @@ contains
                   CorPol_loc=zero
                end if
                dwdt(lm)=dwdt(lm)+CorPol_loc
+               cor_Rloc(lm,nR) = CorPol_loc
             end do
             !$omp end do
          end if

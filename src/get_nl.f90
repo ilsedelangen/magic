@@ -57,6 +57,7 @@ module grid_space_arrays_mod
       real(cp), allocatable :: cbrc(:,:), cbtc(:,:), cbpc(:,:)
       real(cp), allocatable :: pc(:,:), xic(:,:), cvtc(:,:), cvpc(:,:)
       real(cp), allocatable :: dsdtc(:,:), dsdpc(:,:), phic(:,:)
+      real(cp), allocatable :: visf(:,:)
 
    contains
 
@@ -182,6 +183,10 @@ contains
          bytes_allocated=bytes_allocated+2*n_phi_max*nlat_padded*SIZEOF_DEF_REAL
       end if
 
+      allocate( this%visf(nlat_padded,n_phi_max) )
+      this%visf(:,:)=0.0_cp
+      bytes_allocated=bytes_allocated+n_phi_max*nlat_padded*SIZEOF_DEF_REAL
+
    end subroutine initialize
 !----------------------------------------------------------------------------
    subroutine finalize(this)
@@ -207,6 +212,7 @@ contains
       deallocate( this%brc,this%btc,this%bpc,this%cbrc,this%cbtc,this%cbpc )
       deallocate( this%sc,this%drSc, this%pc, this%xic )
       deallocate( this%dsdtc, this%dsdpc )
+      deallocate( this%visf)
 
    end subroutine finalize
 !----------------------------------------------------------------------------

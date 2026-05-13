@@ -418,8 +418,9 @@ contains
          lOnsetCalc   =l_onset      .and. (l_log .or. l_logNext)
 
          l_HT  = (l_frame .and. l_movie) .or. lViscBcCalc .or. (l_frame .and. l_dtphaseMovie)
-         lPressCalc=lRmsCalc .or. ( l_PressGraph .and. l_graph )  &
-         &            .or. lFluxProfCalc
+         lPressCalc=.true.
+         !lPressCalc=lRmsCalc .or. ( l_PressGraph .and. l_graph )  &
+         !&            .or. lFluxProfCalc
          lPressNext=( l_RMS .or. l_FluxProfs ) .and. l_logNext
          lP00Next=( l_RMS .or. l_FluxProfs .or. l_heat .or. l_chemical_conv) &
          &          .and. l_logNext

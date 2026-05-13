@@ -411,8 +411,8 @@ contains
                call graphOut_mpi(nR, Vr, Vt, Vp, Br, Bt, Bp, LFr, LFt, LFp, &
                     &            Sr, Prer, Xir, Phir, n_graph_handle)
 #else
-               call graphOut(nR, Vr, Vt, Vp, Br, Bt, Bp, Sr, Prer, Xir, Phir, &
-                    &        n_graph_handle)
+               call graphOut(nR, Vr, Vt, Vp, Br, Bt, Bp, LFr, LFt, LFp, &
+                    &        Sr, Prer, Xir, Phir, n_graph_handle)
 #endif
             end do
 

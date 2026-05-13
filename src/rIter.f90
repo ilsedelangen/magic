@@ -26,6 +26,7 @@ module rIter_mod
        &                  nRstopMag
    use radial_functions, only: or2, orho1, l_R
    use constants, only: zero
+   use communications, only: lo2r_one
    use nonlinear_lm_mod, only: nonlinear_lm_t
    use grid_space_arrays_mod, only: grid_space_arrays_t
    use torsional_oscillations, only: prep_TO_axi, getTO, getTOnext, getTOfinish
@@ -47,7 +48,8 @@ module rIter_mod
    use fields, only: s_Rloc, ds_Rloc, z_Rloc, dz_Rloc, p_Rloc,    &
        &             b_Rloc, db_Rloc, ddb_Rloc, aj_Rloc,dj_Rloc,  &
        &             w_Rloc, dw_Rloc, ddw_Rloc, xi_Rloc, omega_ic,&
-       &             omega_ma, phi_Rloc
+       &             omega_ma, phi_Rloc, dp_Rloc, cor_Rloc, dif_Rloc, &
+       &             dif_LMloc
    use time_schemes, only: type_tscheme
    use physical_parameters, only: ktops, kbots, n_r_LCR, ktopv, kbotv
    use rIteration, only: rIter_t
@@ -123,6 +125,7 @@ contains
 
       !-- Output variables
       complex(cp), intent(out) :: dwdt(lm_max,nRstart:nRstop)
+      ! complex(cp), save :: CorPol_arr(lm_max,nRstart:nRstop)
       complex(cp), intent(out) :: dzdt(lm_max,nRstart:nRstop)
       complex(cp), intent(out) :: dsdt(lm_max,nRstart:nRstop)
       complex(cp), intent(out) :: dxidt(lm_max,nRstart:nRstop)
@@ -316,6 +319,7 @@ contains
 #else
             call graphOut(nR,this%gsa%vrc,this%gsa%vtc,this%gsa%vpc,     &
                  &        this%gsa%brc,this%gsa%btc,this%gsa%bpc,        &
+                 &        LFr_ave%f_ave(nR,:,:),LFt_ave%f_ave(nR,:,:),LFp_ave%f_ave(nR,:,:),     &  
                  &        this%gsa%sc,this%gsa%pc,this%gsa%xic,          &
                  &        this%gsa%phic)
 #endif
@@ -487,6 +491,8 @@ contains
       logical, intent(in) :: lFluxProfCalc, lPerpParCalc, lHelCalc, l_frame
       logical, intent(in) :: lDeriv, lGeosCalc, lHemiCalc
 
+      complex(cp) :: sum_cor_pres(lm_max,nRstart:nRstop)
+
       if ( l_conv .or. l_mag_kin ) then
          if ( l_heat ) then
             call scal_to_spat(s_Rloc(:,nR), this%gsa%sc, l_R(nR))
@@ -506,6 +512,12 @@ contains
 
          if ( lRmsCalc ) call transform_to_grid_RMS(nR, p_Rloc)
 
+         sum_cor_pres(:,nR) = cor_Rloc(:,nR)-dp_Rloc(:,nR)
+
+         !call lo2r_one%transp_lm2r(dif_LMloc, dif_Rloc)
+         
+         call scal_to_spat(sum_cor_pres(:,nR), this%gsa%visf, l_R(nR))
+         
          !-- Pressure
          if ( lPressCalc ) call scal_to_spat(p_Rloc(:,nR), this%gsa%pc, l_R(nR))
 

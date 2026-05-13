@@ -28,6 +28,9 @@ module fields
    complex(cp), public, pointer :: w_LMloc(:,:),dw_LMloc(:,:),ddw_LMloc(:,:)
    complex(cp), public, pointer :: w_Rloc(:,:), dw_Rloc(:,:), ddw_Rloc(:,:)
 
+   complex(cp), public, allocatable :: cor_Rloc(:,:)
+   complex(cp), public, allocatable :: dif_Rloc(:,:), dif_LMloc(:,:)
+
    complex(cp), public, pointer :: z_LMloc(:,:),dz_LMloc(:,:)
    complex(cp), public, pointer :: z_Rloc(:,:), dz_Rloc(:,:)
 
@@ -93,6 +96,16 @@ contains
       integer :: n_fields
 
       !-- Velocity potentials:
+
+      allocate( cor_Rloc(lm_max,nRstart:nRstop), dif_Rloc(lm_max,nRstart:nRstop) )
+      cor_Rloc(:,:) = zero
+      dif_Rloc(:,:) = zero
+      bytes_allocated = bytes_allocated + 2*lm_max*(nRstop-nRstart+1)*&
+      &                 SIZEOF_DEF_COMPLEX
+      allocate( dif_LMloc(llm:ulm,n_r_max) )
+      dif_LMloc(:,:) = zero
+      bytes_allocated = bytes_allocated + (ulm-llm+1)*n_r_max*SIZEOF_DEF_COMPLEX
+
       if ( rank == 0 ) then
          allocate( bICB(lm_maxMag) )
          bytes_allocated = bytes_allocated + lm_maxMag*SIZEOF_DEF_COMPLEX
@@ -359,6 +372,7 @@ contains
       ! This subroutine deallocates the field arrays used in MagIC
       !
 
+      deallocate( cor_Rloc, dif_Rloc, dif_LMloc )
       deallocate( bICB, b_ic, db_ic, aj_ic )
       deallocate( press_LMloc_container, press_Rloc_container )
       if ( l_parallel_solve ) then

@@ -129,7 +129,7 @@ contains
 
    end subroutine close_graph_file
 !--------------------------------------------------------------------------------
-   subroutine graphOut(n_r,vr,vt,vp,br,bt,bp,sr,prer,xir,phir,n_graph_handle)
+   subroutine graphOut(n_r,vr,vt,vp,br,bt,bp,LFr,LFt,LFp,sr,prer,xir,phir,n_graph_handle)
       !
       !  Output of components of velocity, magnetic field vector, entropy
       !  and composition for graphic outputs.
@@ -139,12 +139,13 @@ contains
       integer,  intent(in) :: n_r                    ! radial grod point no.
       real(cp), intent(in) :: vr(:,:),vt(:,:),vp(:,:)
       real(cp), intent(in) :: br(:,:),bt(:,:),bp(:,:)
+      real(cp), intent(in) :: LFr(:,:),LFt(:,:),LFp(:,:)
       real(cp), intent(in) :: sr(:,:),prer(:,:),xir(:,:),phir(:,:)
       integer, optional, intent(in) :: n_graph_handle ! File index
 
       !-- Local variables:
       integer :: n_phi, n_theta, n_theta_cal, version, n_graph_loc
-      real(cp) :: fac, fac_r
+      real(cp) :: fac, fac_r, mean, sum
       real(outp) :: dummy(n_theta_max,n_phi_max)
 
       if ( present(n_graph_handle) ) then
@@ -199,6 +200,55 @@ contains
          end do
       end do
       write(n_graph_loc) dummy(:,:)
+
+      if ( l_mag ) then
+
+         !-- Calculate and write radial LF
+         fac=or2(n_r)
+         sum=0.0_cp
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               dummy(n_theta,n_phi)=real(fac*LFr(n_theta_cal,n_phi),kind=outp)
+               sum=sum+dummy(n_theta,n_phi)
+            end do
+         end do
+         mean = sum/(n_theta_max*n_phi_max)
+         dummy = dummy-mean
+         write(n_graph_loc) dummy(:,:)
+
+         !-- Calculate and write latitudinal LF:
+         fac_r=r(n_r)
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               fac=fac_r*O_sin_theta(n_theta_cal)
+               dummy(n_theta,n_phi)=real(fac*LFt(n_theta_cal,n_phi),kind=outp)
+            end do
+         end do
+         write(n_graph_loc) dummy(:,:)
+
+         !-- Calculate and write longitudinal LF:
+         !fac_r=r(n_r)
+         sum=0.0_cp
+         do n_phi=1,n_phi_max
+            do n_theta_cal=1,n_theta_max
+               n_theta =n_theta_cal2ord(n_theta_cal)
+               !fac=fac_r*O_sin_theta(n_theta_cal)
+               !dummy(n_theta,n_phi)=real(fac*LFp(n_theta_cal,n_phi),kind=outp)
+               dummy(n_theta,n_phi)=real(LFp(n_theta_cal,n_phi),kind=outp)
+               sum=sum+dummy(n_theta,n_phi)
+            end do
+         end do
+         mean = sum/(n_theta_max*n_phi_max)
+         dummy = dummy-mean
+         write(n_graph_loc) dummy(:,:)
+
+      end if
+
+
+
+
 
       if ( l_heat ) then
          !-- Write entropy:
@@ -432,13 +482,18 @@ contains
 
          !-- Calculate and write longitudinal LF:
          fac_r=r(n_r)
+         ! sum=0.0_cp
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)
                fac=fac_r*O_sin_theta(n_theta_cal)
                dummy(n_theta,n_phi)=real(fac*LFp(n_theta_cal,n_phi),kind=outp)
+               ! dummy(n_theta,n_phi)=real(LFp(n_theta_cal,n_phi),kind=outp)
+               ! sum=sum+dummy(n_theta,n_phi)
             end do
          end do
+         ! mean = sum/(n_theta_max*n_phi_max)
+         ! dummy = dummy-mean
          call write_one_field(dummy, n_graph_loc, n_phi_max, n_theta_max)
 
       end if
@@ -478,6 +533,7 @@ contains
 
       !-- Write pressure:
       if ( l_PressGraph ) then
+         sum=0.0_cp
          do n_phi=1,n_phi_max
             do n_theta_cal=1,n_theta_max
                n_theta =n_theta_cal2ord(n_theta_cal)

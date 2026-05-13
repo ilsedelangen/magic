@@ -11,6 +11,7 @@ module greader_single
    real(cp), allocatable :: entropy(:,:,:),vr(:,:,:),vt(:,:,:),vp(:,:,:)
    real(cp), allocatable :: Br(:,:,:),Bt(:,:,:),Bp(:,:,:),pre(:,:,:)
    real(cp), allocatable :: Br_ic(:,:,:),Bt_ic(:,:,:),Bp_ic(:,:,:)
+   real(cp), allocatable :: LFr(:,:,:),LFt(:,:,:),LFp(:,:,:)
    real(cp), allocatable :: xi(:,:,:),phase(:,:,:)
 
 contains
@@ -66,6 +67,9 @@ contains
         if ( allocated(Br) ) deallocate( Br )
         if ( allocated(Bt) ) deallocate( Bt )
         if ( allocated(Bp) ) deallocate( Bp )
+        if ( allocated(LFr) ) deallocate( LFr )
+        if ( allocated(LFt) ) deallocate( LFt )
+        if ( allocated(LFp) ) deallocate( LFp )
       end if
       if ( (prmag /= 0.0_cp) .and. (nric > 1) ) then
          if ( allocated(radius_ic) ) deallocate( radius_ic )
@@ -95,6 +99,9 @@ contains
          allocate( Br(1:np,1:nt,1:nr) )
          allocate( Bt(1:np,1:nt,1:nr) )
          allocate( Bp(1:np,1:nt,1:nr) )
+         allocate( LFr(1:np,1:nt,1:nr) )
+         allocate( LFt(1:np,1:nt,1:nr) )
+         allocate( LFp(1:np,1:nt,1:nr) )
       end if
 
       if ( (prmag /= 0.0_cp) .and. (nric > 1) ) then
@@ -117,6 +124,11 @@ contains
             read(10) vr(:,int(ilat1):int(ilat2),int(ir+1))
             read(10) vt(:,int(ilat1):int(ilat2),int(ir+1))
             read(10) vp(:,int(ilat1):int(ilat2),int(ir+1))
+            if ( prmag /= 0.0_cp ) then
+               read(10) LFr(:,int(ilat1):int(ilat2),int(ir+1))
+               read(10) LFt(:,int(ilat1):int(ilat2),int(ir+1))
+               read(10) LFp(:,int(ilat1):int(ilat2),int(ir+1))
+            end if
             if ( version=='Graphout_Version_11' .or. version=='Graphout_Version_12') then
                read(10) xi(:,int(ilat1):int(ilat2),int(ir+1))
             end if
@@ -163,6 +175,17 @@ contains
             do j=int(ilat1),int(ilat2)
               read(10) vp(:,j,int(ir+1))
             end do
+            if ( prmag /= 0 ) then
+               do j=int(ilat1),int(ilat2)
+                  read(10) LFr(:,j,int(ir+1))
+               end do
+               do j=int(ilat1),int(ilat2)
+                  read(10) LFt(:,j,int(ir+1))
+               end do
+               do j=int(ilat1),int(ilat2)
+                  read(10) LFp(:,j,int(ir+1))
+               end do
+            end if
             if ( version=='Graphout_Version_5' .or. version=='Graphout_Version_6' ) then
                do j=int(ilat1),int(ilat2)
                  read(10) xi(:,j,int(ir+1))
@@ -235,6 +258,23 @@ contains
             vp(:,j,i)=dummy(:,2*(j-1)+1)
             vp(:,j+nt/2,i)=dummy(:,nt-1-2*(j-1)+1)
          end do
+         if ( prmag /= 0 ) then
+            dummy(:,:)= LFr(:,:,i)
+            do j=1,nt/2
+               LFr(:,j,i)=dummy(:,2*(j-1)+1)
+               LFr(:,j+nt/2,i)=dummy(:,nt-1-2*(j-1)+1)
+            end do
+            dummy(:,:) = LFt(:,:,i)
+            do j=1,nt/2
+               LFt(:,j,i)=dummy(:,2*(j-1)+1)
+               LFt(:,j+nt/2,i)=dummy(:,nt-1-2*(j-1)+1)
+            end do
+            dummy(:,:) = LFp(:,:,i)
+            do j=1,nt/2
+               LFp(:,j,i)=dummy(:,2*(j-1)+1)
+               LFp(:,j+nt/2,i)=dummy(:,nt-1-2*(j-1)+1)
+            end do
+         end if
          if ( version=='Graphout_Version_11' .or. version=='Graphout_Version_12'&
               .or. version=='Graphout_Version_5' .or. version=='Graphout_Version_6' ) then
             dummy(:,:) = xi(:,:,i)
@@ -358,6 +398,9 @@ contains
         if ( allocated(Br) ) deallocate( Br )
         if ( allocated(Bt) ) deallocate( Bt )
         if ( allocated(Bp) ) deallocate( Bp )
+        if ( allocated(LFr) ) deallocate( LFr )
+        if ( allocated(LFt) ) deallocate( LFt )
+        if ( allocated(LFp) ) deallocate( LFp )
       end if
       if ( l_mag .and. (nric > 1) ) then
          if ( allocated(radius_ic) ) deallocate( radius_ic )
@@ -379,6 +422,7 @@ contains
       allocate( vp(1:np,1:nt,1:nr) )
       if ( l_mag ) then
          allocate( Br(1:np,1:nt,1:nr), Bt(1:np,1:nt,1:nr), Bp(1:np,1:nt,1:nr) )
+         allocate( LFr(1:np,1:nt,1:nr), LFt(1:np,1:nt,1:nr), LFp(1:np,1:nt,1:nr) )
       end if
 
       if ( l_mag .and. (nric > 1) ) then
@@ -398,6 +442,14 @@ contains
          vt(:,:,ir)=transpose(dummy)
          read(10) dummy
          vp(:,:,ir)=transpose(dummy)
+         if ( l_mag ) then
+            read(10) dummy
+            LFr(:,:,ir)=transpose(dummy)
+            read(10) dummy
+            LFt(:,:,ir)=transpose(dummy)
+            read(10) dummy
+            LFp(:,:,ir)=transpose(dummy)
+         end if
          if ( l_heat ) then
             read(10) dummy
             entropy(:,:,ir)=transpose(dummy)
